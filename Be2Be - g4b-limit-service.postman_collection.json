@@ -1,0 +1,4095 @@
+{
+	"info": {
+		"_postman_id": "14abc8ab-d446-4e57-99ce-bb66ae057c59",
+		"name": "Be2Be - g4b-limit-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23141207"
+	},
+	"item": [
+		{
+			"name": "PUT /limits/validate",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "czk, O, E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, O, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, O, E, status=1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, O, E - limit exceeded (status=1)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, O, S, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, O, S - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1000000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"S\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, C, E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, C, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1000000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, C, S, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, C, S - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10000000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"S\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, L, E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, L, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, L, E, status=1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, L, E - limit exceeded (status=1)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"100000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, L, S, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, L, S - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"100000000.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"S\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eur, O,E, status=1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"EUR, O, E - limit exceeded (status=1)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"25000.5\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eur, O,E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"EUR, O, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"20000\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eur, C,E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"EUR, C, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"25000\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "negative amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Negative amount - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"-100\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "multiple payment - status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Multiple payment - status = 0\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"2\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"3\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "multiple payment - status=1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Multiple payment - status = 1\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "1998-12-21-23.18.40.658718",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"200\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"5000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "cluid+license not in dtb, status=2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Limit not in database - status = 2\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(2);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "123456789",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"1234567897\",\r\n    \"licenseId\": \"987654321\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*\r\n    fake cluid + licenseId\r\n*/\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "limit unrestricted=true, correct=false, status=2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Unrestricted limit - correct=false - status = 2\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(2);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "9007-01-27-10.50.15.555608",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluidLimitsUnrestricted}}\",\r\n    \"licenseId\": \"{{licenseIdLimitsUnrestricted}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  \r\nunrestricted = true -> correct = false for MVP\r\ntrnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "active=false, status=2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Limit not active - status = 2\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(2);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "2002-12-06-03.50.57.027466",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluidLimitsNotActive}}\",\r\n    \"licenseId\": \"{{licenseIdLimitsNotActive}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "400 empty userCluid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty userCluid - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"FIELD_INVALID\");\r",
+											"    pm.expect(response.errors[0].scope).to.eql(\"validate.validateRequest.userCluid\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"validate.validateRequest.userCluid: musí odpovídat\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no userCluid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No userCluid - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"userCluid due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 empty licenseId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty licenseId - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"FIELD_INVALID\");\r",
+											"    pm.expect(response.errors[0].scope).to.eql(\"validate.validateRequest.licenseId\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"validate.validateRequest.licenseId: musí odpovídat\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no licenseId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No licenseId - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"licenseId due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no payments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No payments - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"payments due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\"\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 empty amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty amount - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"trnAmount due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"S\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No amount - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"trnAmount due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 empty currency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty currency - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"FIELD_INVALID\");\r",
+											"    pm.expect(response.errors[0].scope).to.eql(\"validate.validateRequest.payments[0].trnCurrency\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"validate.validateRequest.payments[0].trnCurrency: musí odpovídat\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "500 currency not in dtb",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 500\", function () {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Currency not in database - 500\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"XYZ\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no currency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No currency - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"trnCurrency due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 trnContext invalid value",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Invalid value - trnContext\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"BAD_TRN_CONTEXT\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"X\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no trnContext",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No trnContext - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"trnContext due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 signContext invalid value",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Invalid value - signContext\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"BAD_SIGN_CONTEXT\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"X\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 signContext invalid value - EN error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Invalid value - signContext - EN\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"FIELD_INVALID\");\r",
+											"    pm.expect(response.errors[0].scope).to.eql(\"validate.validateRequest.payments[0].signContext\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"validate.validateRequest.payments[0].signContext: must match\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-language",
+										"value": "en-US,en;q=0.8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"Xe\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no signContext",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No trnContext - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"signContext due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/validate",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "PUT /limits/process",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "czk, O, E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, O, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, O, E, status=10",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"EUR, O, E - security limit exceeded (status=10)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(10);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluidLowerSecurityLimit}}\",\r\n    \"licenseId\": \"{{licenseIdLowerSecurityLimit}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"550000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, O, E, status=1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, O, E - limit exceeded (status=1)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, O, S, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, O, S - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1000000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"S\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, C, E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, C, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1000000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, C, S, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, C, S - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10000000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"S\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, L, E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, L, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, L, E, status=1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, L, E - limit exceeded (status=1)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"100000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, L, E, status=10",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, O, E - security limit exceeded (status=10)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(10);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluidLowerSecurityLimit}}\",\r\n    \"licenseId\": \"{{licenseIdLowerSecurityLimit}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "czk, L, S, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, L, S - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"100000000.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"S\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eur, O,E, status=1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"EUR, O, E - limit exceeded (status=1)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"30000.5\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eur, O, E, status=10",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"CZK, L, E - security limit exceeded (status=10)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(10);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluidLowerSecurityLimit}}\",\r\n    \"licenseId\": \"{{licenseIdLowerSecurityLimit}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"25000\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/\r\n"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eur, O,E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"EUR, O, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eur, C,E, status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"EUR, C, E - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"30000\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "negative amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Negative amount - limit OK (status=0)\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"-100\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "multiple payment - status=0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Multiple payment - status = 0\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"2\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"3\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "multiple payment - status=1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Multiple payment - status = 1\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "1998-12-21-23.18.40.658718",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"200\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"5000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"25000000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "multiple payment - status=10",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Multiple payment - security limit exceeded - status = 10\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(10);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "1998-12-21-23.18.40.658718",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluidLowerSecurityLimit}}\",\r\n    \"licenseId\": \"{{licenseIdLowerSecurityLimit}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10000\",\r\n            \"trnCurrency\": \"EUR\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"250000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        },\r\n        {\r\n            \"trnAmount\": \"250000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"L\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "cluid+license not in dtb, status=2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Limit not defined for not existing user/license - status = 2\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(2);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "123456789",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"1234567897\",\r\n    \"licenseId\": \"987654321\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"1\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "limit unrestricted=true, correct=false, status=2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Limit unrestricted - status = 2\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(2);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "9007-01-27-10.50.15.555608",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluidLimitsUnrestricted}}\",\r\n    \"licenseId\": \"{{licenseIdLimitsUnrestricted}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*\r\nunrestricted = true -> correct = false for MVP\r\ntrnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "active=false, status=2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Limit is not active - status = 2\", function () {\r",
+											"    pm.expect(response.limitStatus).to.eql(2);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "2002-12-06-03.50.57.027466",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluidLimitsNotActive}}\",\r\n    \"licenseId\": \"{{licenseIdLimitsNotActive}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"10\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "400 empty userCluid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty userCluid - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"FIELD_INVALID\");\r",
+											"    pm.expect(response.errors[0].scope).to.eql(\"process.processRequest.userCluid\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"process.processRequest.userCluid: musí odpovídat\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no userCluid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No userCluid - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"userCluid due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 empty licenseId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty licenseId - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"FIELD_INVALID\");\r",
+											"    pm.expect(response.errors[0].scope).to.eql(\"process.processRequest.licenseId\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"process.processRequest.licenseId: musí odpovídat\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no licenseId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No licenseId - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"licenseId due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no payments",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No payments - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"payments due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\"\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 empty amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty amount - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"trnAmount due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"S\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No amount - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"trnAmount due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 empty currency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty currency - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"FIELD_INVALID\");\r",
+											"    pm.expect(response.errors[0].scope).to.eql(\"process.processRequest.payments[0].trnCurrency\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"process.processRequest.payments[0].trnCurrency: musí odpovídat\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "500 currency not in dtb",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 500\", function () {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Currency not in database - 500\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"INTERNAL_SERVER_ERROR\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnCurrency\": \"XYZ\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no currency",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No currency - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"trnCurrency due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"15650.45\",\r\n            \"trnContext\": \"O\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 trnContext invalid value",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Invalid value - trnContext\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"BAD_TRN_CONTEXT\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"X\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no trnContext",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No trnContext - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"trnContext due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"signContext\": \"E\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 signContext invalid value",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Invalid value - signContext\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"BAD_SIGN_CONTEXT\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"X\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 signContext invalid value - EN error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Invalid value - signContext - EN\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"FIELD_INVALID\");\r",
+											"    pm.expect(response.errors[0].scope).to.eql(\"process.processRequest.payments[0].signContext\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"process.processRequest.payments[0].signContext: must match\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept-language",
+										"value": "en-US,en;q=0.8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\",\r\n            \"signContext\": \"Xe\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 no signContext",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"No trnContext - 400\", function () {\r",
+											"    pm.expect(response.errors[0].error).to.eql(\"MISSING_KOTLIN_PARAMETER_EXCEPTION\");\r",
+											"    pm.expect(response.errors[0].message).to.include(\"signContext due to missing (therefore NULL) value\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"content-type": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "x-user-cluid",
+										"value": "{{userCluid}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userCluid\": \"{{userCluid}}\",\r\n    \"licenseId\": \"{{licenseId}}\",\r\n    \"payments\": [\r\n        {\r\n            \"trnAmount\": \"600000\",\r\n            \"trnCurrency\": \"CZK\",\r\n            \"trnContext\": \"C\"\r\n        }\r\n    ]\r\n}\r\n\r\n/*  trnContext:\r\nC = Inside Company\r\nL = Inside Licence\r\nO = Outside\r\n*/\r\n\r\n/*  signContext\r\nE = Samostatný podpis\r\nS = Připodepsání (první i poslední)\r\n*/\r\n\r\n/* limitStatus:\r\n0 = OK\r\n1 = Uživatelský limit bude překročen\r\n2 = Uživatelský limit není definován nebo je neplatný\r\n10 = Limit bezpečnostní metody překročen\r\n*/"
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/limits/process",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"limits",
+										"process"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add( {key: 'Ocp-Apim-Subscription-Key', value: '{{OcpBe2BeApimKey}}' });",
+					"pm.variables.set(\"userCluid\", \"{{dobranskaHelenaForLimits}}\");",
+					"pm.variables.set(\"licenseId\", \"{{ceskaTelevizeLicenseId}}\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Response must be valid and have body', ()=> {",
+					"    pm.expect(pm.response.to.be.withBody);",
+					"});",
+					"",
+					"pm.test('Header contains Content-Type application/json', ()=> {",
+					"    pm.expect(pm.response).to.have.header('Content-type');",
+					"    pm.expect(pm.response.headers.get('content-Type')).to.contain('application/json');",
+					"});",
+					"",
+					"pm.test('Response time is less than 6000ms', ()=> {",
+					"    pm.expect(pm.response.responseTime).to.be.below(6000);",
+					"});"
+				]
+			}
+		}
+	]
+}

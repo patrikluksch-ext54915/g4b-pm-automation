@@ -1,0 +1,1722 @@
+{
+	"info": {
+		"_postman_id": "8a3d6a7a-8afd-42dc-94a2-a98f570267d3",
+		"name": "CF - g4b-bff-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23141207"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const clients = ['zdenekKonecny','alesPokorny', 'marcelaAdamcova', 'antoninValenta', 'davidKarol', 'alexanderOravec', 'lenkaHajkova', 'lucieJiroudkova', 'pavelKrepelka', 'hanaFodorova', 'michalPribyl', 'olgaHorakova', 'zuzanaMasatova', 'tomasHerden', 'kristynaRousova', 'michaelaVikova', 'petrSpacek', 'ivanaPetrovicova', 'miroslavKupcik', 'janSuk','jiriOuborny', 'romanProchazka', 'petrBresky', 'marcelaNovotna']\r",
+									"\r",
+									"const auth = (cluid) => {\r",
+									"    const auth = {\r",
+									"        url: pm.variables.replaceIn(`{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_for_business&cluid={{${cluid}}}&expires_in=28800&scenario_key=s_authn_sca_pwd_sms`),\r",
+									"        method: 'GET'\r",
+									"    };\r",
+									"\r",
+									"    pm.sendRequest(auth, (error, response) => {\r",
+									"        if (error) {\r",
+									"            console.log(error);\r",
+									"        } else {\r",
+									"            const jsonData = response.json();\r",
+									"            pm.collectionVariables.set(`${cluid}Token`, jsonData.access_token);\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"clients.forEach(cluid => auth(cluid))\r",
+									"\r",
+									"const authInvalidAudience = (cluid) => {\r",
+									"    const auth = {\r",
+									"        url: pm.variables.replaceIn(`{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_ticketing_client&cluid=${cluid}&expires_in=28800&scenario_key=s_authn_sca_pwd_sms`),\r",
+									"        method: 'GET'\r",
+									"    };\r",
+									"\r",
+									"    pm.sendRequest(auth, (error, response) => {\r",
+									"        if (error) {\r",
+									"            console.log(error);\r",
+									"        } else {\r",
+									"            const jsonData = response.json();\r",
+									"            pm.collectionVariables.set(`InvalidAudienceToken`, jsonData.access_token);\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"authInvalidAudience('1997-04-10-22.11.11.258187')\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_for_business&cluid={{lenkaHajkova}}&expires_in=3600&scenario_key=s_authn_sca_pwd_sms",
+							"host": [
+								"{{mepTokenUrl}}"
+							],
+							"query": [
+								{
+									"key": "web-api-key",
+									"value": "{{mepTokenWebApiKey}}"
+								},
+								{
+									"key": "client_id",
+									"value": "george_for_business"
+								},
+								{
+									"key": "cluid",
+									"value": "{{lenkaHajkova}}"
+								},
+								{
+									"key": "expires_in",
+									"value": "3600"
+								},
+								{
+									"key": "scenario_key",
+									"value": "s_authn_sca_pwd_sms"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//Error tests",
+							"const keyMissingTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains status and errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: KEY_MISSING', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('KEY_MISSING');",
+							"    });",
+							"};",
+							"",
+							"const tokenMissingTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains status and errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Bearer error=\"token_missing\"', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"token_missing\"');",
+							"    });",
+							"};",
+							"",
+							"const tokenInvalidTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Bearer error=\"invalid_token', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\"');",
+							"    });",
+							"};",
+							"",
+							"const tokenInvalidAudienceTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains errors array', () => {",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Audience error=\"invalid_audience\"', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Audience error=\"invalid_audience\"');",
+							"    });",
+							"};",
+							"",
+							"pm.collectionVariables.set('keyMissingTests', keyMissingTests.toString());",
+							"pm.collectionVariables.set('tokenMissingTests', tokenMissingTests.toString());",
+							"pm.collectionVariables.set('tokenInvalidTests', tokenInvalidTests.toString());",
+							"pm.collectionVariables.set('tokenInvalidAudienceTests', tokenInvalidAudienceTests.toString());",
+							"pm.collectionVariables.set('invalidToken', '3/7nz8H096eb8Gf014OD85brFae1OpIBoGnMbDmwGhO8PYAzTtaoiN864QCnbRbxXm');",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "GET /info/countries",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "cs language",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const cz = response.countries.find(country => country.countryIso === 'CZ');\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Country object contains correct values', () => {\r",
+											"    pm.expect(cz.name).to.eql('Česká republika');\r",
+											"    pm.expect(cz.countryIsoA3).to.eql('CZE');\r",
+											"    pm.expect(cz.flags[0]).to.eql('europeanUnionCountry');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Client-Accept-Language",
+										"value": "cs",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{g4bUrl}}/info/countries",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"countries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "en language",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const sk = response.countries.find(country => country.countryIso === 'SK');\r",
+											"\r",
+											"pm.test('Country object contains correct values', () => {\r",
+											"    pm.expect(sk.name).to.eql('Slovakia');\r",
+											"    pm.expect(sk.countryIsoA3).to.eql('SVK');\r",
+											"    pm.expect(sk.flags[0]).to.eql('europeanUnionCountry');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Client-Accept-Language",
+										"value": "en",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{g4bUrl}}/info/countries",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"countries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "validate schema",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"required\": [\r",
+											"        \"countries\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"countries\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"minItems\": 250,\r",
+											"            \"maxItems\": 300,\r",
+											"            \"additionalItems\": false,\r",
+											"            \"items\": {\r",
+											"                \"anyOf\": [\r",
+											"                    {\r",
+											"                        \"type\": \"object\",\r",
+											"                        \"required\": [\r",
+											"                            \"countryIso\",\r",
+											"                            \"name\",\r",
+											"                            \"countryIsoA3\",\r",
+											"                            \"flags\"\r",
+											"                        ],\r",
+											"                        \"properties\": {\r",
+											"                            \"countryIso\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"name\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"countryIsoA3\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"flags\": {\r",
+											"                                \"type\": \"array\",\r",
+											"                                \"additionalItems\": false,\r",
+											"                                \"items\": {\r",
+											"                                    \"anyOf\": [\r",
+											"                                        {\r",
+											"                                            \"type\": \"string\"\r",
+											"                                        }\r",
+											"                                    ]\r",
+											"                                }\r",
+											"                            }\r",
+											"                        },\r",
+											"                        \"additionalProperties\": false\r",
+											"                    },\r",
+											"                    {\r",
+											"                        \"type\": \"object\",\r",
+											"                        \"required\": [\r",
+											"                            \"countryIso\",\r",
+											"                            \"name\",\r",
+											"                            \"flags\"\r",
+											"                        ],\r",
+											"                        \"properties\": {\r",
+											"                            \"countryIso\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"name\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"flags\": {\r",
+											"                                \"type\": \"array\",\r",
+											"                                \"additionalItems\": false,\r",
+											"                                \"items\": {}\r",
+											"                            }\r",
+											"                        },\r",
+											"                        \"additionalProperties\": false\r",
+											"                    }\r",
+											"                ]\r",
+											"            }\r",
+											"        }\r",
+											"    },\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test('Schema is valid', () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Client-Accept-Language",
+										"value": "cs",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{g4bUrl}}/info/countries",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"countries"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "401 subscription key missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Ocp-Apim-Subscription-Key');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('keyMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Client-Accept-Language",
+												"value": "cs",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{g4bUrl}}/info/countries",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"countries"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Client-Accept-Language",
+												"value": "cs",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{g4bUrl}}/info/countries",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"countries"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{invalidToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Client-Accept-Language",
+												"value": "cs",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{g4bUrl}}/info/countries",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"countries"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid audience",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{InvalidAudienceToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidAudienceTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/info/countries",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"countries"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "GET /info/holidays/bank",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "valid countryIso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.pageNumber).to.eql(0);\r",
+											"    pm.expect(response.pageCount).to.eql(1);\r",
+											"    pm.expect(response.pageSize).to.eql(response.holidays.length);\r",
+											"    pm.expect(response.holidays).to.not.be.empty;\r",
+											"    pm.expect(response).to.not.have.property('nextPage');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZ"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid countryIso, startDate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.pageNumber).to.eql(0);\r",
+											"    pm.expect(response.pageCount).to.eql(1);\r",
+											"    pm.expect(response.pageSize).to.eql(response.holidays.length);\r",
+											"    pm.expect(response.holidays).to.not.be.empty;\r",
+											"    pm.expect(response).to.not.have.property('nextPage');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ&startDate=2028-04-30",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZ"
+										},
+										{
+											"key": "startDate",
+											"value": "2028-04-30"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid countryIso, size",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const size = Number(pm.request.url.query.get('size'));\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.pageNumber).to.eql(0);\r",
+											"    pm.expect(response.pageCount).to.be.above(10);\r",
+											"    pm.expect(response.nextPage).to.eql(1);\r",
+											"    pm.expect(response.pageSize).to.eql(size);\r",
+											"    pm.expect(response.holidays.length).to.eql(size);\r",
+											"    pm.expect(response.holidays).to.not.be.empty;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ&size=2",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZ"
+										},
+										{
+											"key": "size",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid countryIso, size, page",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const size = Number(pm.request.url.query.get('size'));\r",
+											"let page = Number(pm.request.url.query.get('page'));\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.pageNumber).to.eql(page);\r",
+											"    pm.expect(response.pageCount).to.be.above(20);\r",
+											"    pm.expect(response.pageSize).to.eql(size);\r",
+											"    pm.expect(response.nextPage).to.eql(++page);\r",
+											"    pm.expect(response.holidays.length).to.eql(size);\r",
+											"    pm.expect(response.holidays).to.not.be.empty;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ&size=1&page=3",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZ"
+										},
+										{
+											"key": "size",
+											"value": "1"
+										},
+										{
+											"key": "page",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "validate schema",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"required\": [\r",
+											"        \"pageNumber\",\r",
+											"        \"pageCount\",\r",
+											"        \"pageSize\",\r",
+											"        \"nextPage\",\r",
+											"        \"holidays\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"pageNumber\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"pageCount\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"pageSize\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"nextPage\": {\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"holidays\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"uniqueItems\": true,\r",
+											"            \"additionalItems\": false,\r",
+											"            \"items\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        }\r",
+											"    },\r",
+											"    \"additionalProperties\": false\r",
+											"};\r",
+											"\r",
+											"pm.test('Schema is valid', () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ&startDate=2028-04-30&size=5&page=1",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZ"
+										},
+										{
+											"key": "startDate",
+											"value": "2028-04-30"
+										},
+										{
+											"key": "size",
+											"value": "5"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "401 subscription key missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Ocp-Apim-Subscription-Key');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('keyMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"holidays",
+												"bank"
+											],
+											"query": [
+												{
+													"key": "countryIso",
+													"value": "CZ"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"holidays",
+												"bank"
+											],
+											"query": [
+												{
+													"key": "countryIso",
+													"value": "CZ"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{invalidToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"holidays",
+												"bank"
+											],
+											"query": [
+												{
+													"key": "countryIso",
+													"value": "CZ"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "without countryIso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 400', () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.uuid).to.be.a('string');\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains error message: FIELD_INVALID', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(1);\r",
+											"    pm.expect(response.errors[0].error).to.eql('FIELD_INVALID');\r",
+											"    pm.expect(response.errors[0].scope).to.eql('countryIso');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid countryIso",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 400', () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.uuid).to.be.a('string');\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains error message: FIELD_INVALID', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(1);\r",
+											"    pm.expect(response.errors[0].error).to.eql('FIELD_INVALID');\r",
+											"    pm.expect(response.errors[0].scope).to.eql('countryIso');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZZ",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZZ"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid startDate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 400', () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.uuid).to.be.a('string');\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains error message: FIELD_INVALID', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(1);\r",
+											"    pm.expect(response.errors[0].error).to.eql('FIELD_INVALID');\r",
+											"    pm.expect(response.errors[0].scope).to.eql('startDate');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ&startDate=2028-04-31",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZ"
+										},
+										{
+											"key": "startDate",
+											"value": "2028-04-31"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid size",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 400', () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.uuid).to.be.a('string');\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains error message: FIELD_INVALID', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(1);\r",
+											"    pm.expect(response.errors[0].error).to.eql('FIELD_INVALID');\r",
+											"    pm.expect(response.errors[0].scope).to.eql('size');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ&size=0",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZ"
+										},
+										{
+											"key": "size",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid page",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 400', () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.uuid).to.be.a('string');\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains error message: FIELD_INVALID', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(1);\r",
+											"    pm.expect(response.errors[0].error).to.eql('FIELD_INVALID');\r",
+											"    pm.expect(response.errors[0].scope).to.eql('page');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZ&size=6&page=-1",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZ"
+										},
+										{
+											"key": "size",
+											"value": "6"
+										},
+										{
+											"key": "page",
+											"value": "-1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid countryIso, startDate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 400', () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.uuid).to.be.a('string');\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Errors array contains two errors', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(2);\r",
+											"    pm.expect(response.errors[0].error).to.eql('FIELD_INVALID');\r",
+											"    pm.expect(response.errors[0].scope).to.eql('countryIso');\r",
+											"    pm.expect(response.errors[1].error).to.eql('FIELD_INVALID');\r",
+											"    pm.expect(response.errors[1].scope).to.eql('startDate');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZZ&startDate=04-31-2025",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZZ"
+										},
+										{
+											"key": "startDate",
+											"value": "04-31-2025"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid countryIso, startDate, size, page",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 400', () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.uuid).to.be.a('string');\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Errors array contains all 4 errors', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(4);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/holidays/bank?countryIso=CZY&startDate=04-31-2025&size=0&page=-1",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"holidays",
+										"bank"
+									],
+									"query": [
+										{
+											"key": "countryIso",
+											"value": "CZY"
+										},
+										{
+											"key": "startDate",
+											"value": "04-31-2025"
+										},
+										{
+											"key": "size",
+											"value": "0"
+										},
+										{
+											"key": "page",
+											"value": "-1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{lenkaHajkovaToken}}' });",
+					"pm.request.headers.add({ key: 'Ocp-Apim-Subscription-Key', value: '{{OcpApimKey}}' });",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Response must be valid and have body', ()=> {",
+					"    pm.expect(pm.response.to.be.withBody);",
+					"});",
+					"",
+					"pm.test('Header contains Content-Type application/json', ()=> {",
+					"    pm.expect(pm.response).to.have.header('Content-type');",
+					"    pm.expect(pm.response.headers.get('content-Type')).to.contain('application/json');",
+					"});",
+					"",
+					"pm.test('Response time is less than 6000ms', ()=> {",
+					"    pm.expect(pm.response.responseTime).to.be.below(6000);",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "keyMissingTests",
+			"value": ""
+		},
+		{
+			"key": "tokenMissingTests",
+			"value": ""
+		},
+		{
+			"key": "tokenInvalidTests",
+			"value": ""
+		},
+		{
+			"key": "tokenInvalidAudienceTests",
+			"value": ""
+		},
+		{
+			"key": "invalidToken",
+			"value": ""
+		},
+		{
+			"key": "alesPokornyToken",
+			"value": ""
+		},
+		{
+			"key": "petrSpacekToken",
+			"value": ""
+		},
+		{
+			"key": "lenkaHajkovaToken",
+			"value": ""
+		},
+		{
+			"key": "jiriOubornyToken",
+			"value": ""
+		},
+		{
+			"key": "zuzanaMasatovaToken",
+			"value": ""
+		},
+		{
+			"key": "davidKarolToken",
+			"value": ""
+		},
+		{
+			"key": "tomasHerdenToken",
+			"value": ""
+		},
+		{
+			"key": "kristynaRousovaToken",
+			"value": ""
+		},
+		{
+			"key": "marcelaAdamcovaToken",
+			"value": ""
+		},
+		{
+			"key": "pavelKrepelkaToken",
+			"value": ""
+		},
+		{
+			"key": "hanaFodorovaToken",
+			"value": ""
+		},
+		{
+			"key": "miroslavKupcikToken",
+			"value": ""
+		},
+		{
+			"key": "petrBreskyToken",
+			"value": ""
+		},
+		{
+			"key": "michaelaVikovaToken",
+			"value": ""
+		},
+		{
+			"key": "antoninValentaToken",
+			"value": ""
+		},
+		{
+			"key": "janSukToken",
+			"value": ""
+		},
+		{
+			"key": "alexanderOravecToken",
+			"value": ""
+		},
+		{
+			"key": "lucieJiroudkovaToken",
+			"value": ""
+		},
+		{
+			"key": "romanProchazkaToken",
+			"value": ""
+		},
+		{
+			"key": "michalPribylToken",
+			"value": ""
+		},
+		{
+			"key": "zdenekKonecnyToken",
+			"value": ""
+		},
+		{
+			"key": "olgaHorakovaToken",
+			"value": ""
+		},
+		{
+			"key": "marcelaNovotnaToken",
+			"value": ""
+		},
+		{
+			"key": "ivanaPetrovicovaToken",
+			"value": ""
+		},
+		{
+			"key": "InvalidAudienceToken",
+			"value": ""
+		}
+	]
+}

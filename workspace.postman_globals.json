@@ -1,0 +1,193 @@
+{
+	"id": "4d9e14ff-1857-47b7-8c25-c2e070274858",
+	"values": [
+		{
+			"key": "zdenekKonecny",
+			"value": "2003-01-16-13.17.10.008342",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "alesPokorny",
+			"value": "1999-06-17-21.31.48.442480",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "marcelaAdamcova",
+			"value": "1997-04-10-22.42.09.277859",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "antoninValenta",
+			"value": "2003-06-24-00.07.38.976064",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "davidKarol",
+			"value": "1997-04-09-17.04.45.018590",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "alexanderOravec",
+			"value": "8021-12-22-17.46.19.149323",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "lenkaHajkova",
+			"value": "1997-04-10-22.11.11.258187",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "lucieJiroudkova",
+			"value": "8016-07-14-07.36.09.975752",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "pavelKrepelka",
+			"value": "1997-04-09-17.03.15.542584",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "hanaFodorova",
+			"value": "8018-11-06-14.19.23.526962",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "michalPribyl",
+			"value": "1997-04-09-17.02.15.091465",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "olgaHorakova",
+			"value": "1997-04-09-17.05.55.495730",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "zuzanaMasatova",
+			"value": "1998-10-27-02.15.12.177146",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "tomasHerden",
+			"value": "1998-10-27-02.59.59.877237",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "kristynaRousova",
+			"value": "8021-02-25-15.32.43.350335",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "michaelaVikova",
+			"value": "8019-09-02-16.58.57.078686",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "petrSpacek",
+			"value": "2004-04-14-01.43.58.742102",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ivanaPetrovicova",
+			"value": "1998-06-02-20.51.08.868939",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "miroslavKupcik",
+			"value": "1997-04-09-17.04.15.136955",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "janSuk",
+			"value": "1997-04-09-17.02.06.198488",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "jiriOuborny",
+			"value": "8009-12-30-14.13.05.786026",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "romanProchazka",
+			"value": "1998-05-06-20.24.17.044190",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "petrBresky",
+			"value": "1998-10-27-03.19.00.034947",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "marcelaNovotna",
+			"value": "1997-04-09-17.04.16.946556",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "dobranskaHelenaForLimits",
+			"value": "9007-03-06-15.30.26.219176",
+			"enabled": true
+		},
+		{
+			"key": "ceskaTelevizeLicenseId",
+			"value": "f0ade1dd-9a8a-4875-8069-316d3db238b3",
+			"enabled": true
+		},
+		{
+			"key": "userCluidLimitsNotActive",
+			"value": "2002-12-06-03.50.NESAHAT",
+			"enabled": true
+		},
+		{
+			"key": "licenseIdLimitsNotActive",
+			"value": "8f4b0267-1f5c-4545-8c14-NESAHAT",
+			"enabled": true
+		},
+		{
+			"key": "userCluidLimitsUnrestricted",
+			"value": "9007-01-27-10.50.NESAHAT",
+			"enabled": true
+		},
+		{
+			"key": "licenseIdLimitsUnrestricted",
+			"value": "33cf246d-b300-4bd4-b554-NESAHAT",
+			"enabled": true
+		},
+		{
+			"key": "userCluidLowerSecurityLimit",
+			"value": "1234-12-06-03.50.NESAHAT",
+			"enabled": true
+		},
+		{
+			"key": "licenseIdLowerSecurityLimit",
+			"value": "12340267-1f5c-4545-8c14-NESAHAT",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2022-11-21T12:48:35.813Z",
+	"_postman_exported_using": "Postman/10.3.5"
+}

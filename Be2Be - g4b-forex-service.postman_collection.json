@@ -1,0 +1,1361 @@
+{
+	"info": {
+		"_postman_id": "d195cfc7-93e4-4d49-a7b6-a8117edddcac",
+		"name": "Be2Be - g4b-forex-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23141207"
+	},
+	"item": [
+		{
+			"name": "POST /deal/abandonDeal",
+			"item": [
+				{
+					"name": "Rejection of payment, cancellation of currency reservation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"//Parse data\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-user-cluid",
+								"value": "9014-05-22-00.46.39.882570",
+								"type": "text"
+							},
+							{
+								"key": "x-user-name",
+								"value": "Petr Novák",
+								"type": "text"
+							},
+							{
+								"key": "x-user-roles",
+								"value": "Corporate_ACTIVE_USER",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "x-user-legal-person-cluid",
+								"value": "9014-05-22-00.46.39.882570",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"streamId\": \"1b_0cbcf081-42a4-43c6-84cd-141c0fd80170\",\r\n\"registrationNumber\": \"45244770\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{g4bApimBe2BeUrl}}/deal/abandonDeal",
+							"host": [
+								"{{g4bApimBe2BeUrl}}"
+							],
+							"path": [
+								"deal",
+								"abandonDeal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST /deal/acceptDeal",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "Info/regulation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Check response\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"//End if not 200\r",
+											"if ((pm.response.code) != (200)) {\r",
+											"    return;\r",
+											"}\r",
+											"\r",
+											"//Parse data\r",
+											"//var jsonData = JSON.parse(responseBody);\r",
+											"//Set stream id\r",
+											"//pm.environment.set(\"streamId\", jsonData.items.exchangeRates.streamId);\r",
+											"//Set registration number\r",
+											"//postman.setEnvironmentVariable(\"regNumber\", jsonData.items.exchangeRates.streamId);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);\r",
+											"\r",
+											"//Prepare JSON body\r",
+											"var data =\r",
+											"{\r",
+											"\"ownerCluid\": \"2002-04-24-22.51.58.094804\",\r",
+											"\"registrationNumber\": \"25101625\",\r",
+											"\"account\": {\r",
+											"    \"prefix\": \"\",\r",
+											"    \"number\": \"1368632\",\r",
+											"    \"bankCode\": \"0800\",\r",
+											"    \"backendSB\": false,\r",
+											"    \"currency\": \"CZK\"\r",
+											" },\r",
+											"\"payments\": [\r",
+											" {\r",
+											"    \"paymentCategory\": \"SEPA\",\r",
+											"    \"priority\": \"STANDARD\",\r",
+											"    \"paymentDate\": pm.environment.get(\"paymentDateToday\"),\r",
+											"    \"receiver\": {\r",
+											"     \"iban\": \"SK30 1100 1231 2312 3123 1231\",\r",
+											"     \"bic\": \"TATRSKBX\",\r",
+											"     \"bankCode\": \"1100\",\r",
+											"     \"countryCode\": \"SVK\"\r",
+											"     },\r",
+											"    \"amount\": {\r",
+											"     \"value\": 252,\r",
+											"     \"currency\": \"EUR\",\r",
+											"     \"precision\": 1\r",
+											"     }\r",
+											" }\r",
+											"],\r",
+											"\"disposableBalance\": 152256.4,\r",
+											"\"streamId\": \"\",\r",
+											"\"isLastSign\": true\r",
+											"}\r",
+											"\r",
+											"data = JSON.stringify(data);\r",
+											"pm.environment.set(\"request\", data)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.02.58.033800",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2002-04-24-22.51.58.094804",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Jaroslav Bartos",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{request}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Payment confirmation and course acceptance_happy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Check response\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"//Parse data\r",
+											"var jsonData = JSON.parse(responseBody);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Prepare JSON body\r",
+											"var data =\r",
+											"{\r",
+											" \"streamId\": pm.environment.get(\"streamId\"),\r",
+											" \"registrationNumber\": \"25101625\"\r",
+											"}\r",
+											"\r",
+											"data = JSON.stringify(data);\r",
+											"pm.environment.set(\"request\", data)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.02.58.033800",
+										"type": "text"
+									},
+									{
+										"key": "x-user-roles",
+										"value": "Corporate_ACTIVE_USER",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2002-04-24-22.51.58.094804",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Jaroslav Bartos",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{{request}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/deal/acceptDeal",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"deal",
+										"acceptDeal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Payment confirmation and course acceptance_happy Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Check response\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"//Parse data\r",
+											"var jsonData = JSON.parse(responseBody);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.02.58.033800",
+										"type": "text"
+									},
+									{
+										"key": "x-user-roles",
+										"value": "Corporate_ACTIVE_USER",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2000-05-09-20.50.01.875551",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Jaroslav Bartos",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"streamId\": \"1a_f4c7d1f3-dfb7-4a8d-8df5-4a469b780932\",\r\n \"registrationNumber\": \"45359083\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/deal/acceptDeal",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"deal",
+										"acceptDeal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "Payment confirmation and course acceptance_error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//Check response\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"//Parse data\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"//Checks\r",
+											"pm.test(\"error\", () => {\r",
+											"    pm.expect(jsonData.errors.error).is.equal(\"RET call ended with an error: Deal is not found or expired\");\r",
+											"})\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "9014-05-22-00.46.39.882590",
+										"type": "text"
+									},
+									{
+										"key": "x-user-roles",
+										"value": "Corporate_ACTIVE_USER",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "9014-05-22-00.46.39.882590",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Petr Novák",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"streamId\": \"1b_0cbcf081-42a4-43c6-84cd-141c0fd80191\",\r\n\"registrationNumber\": \"45244791\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/deal/acceptDeal",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"deal",
+										"acceptDeal"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "POST /info/regulation",
+			"item": [
+				{
+					"name": "CD-40336 nadlimitní SB",
+					"item": [
+						{
+							"name": "Nadlimit_FX flag_not LIVE_SB_CZK",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.08.58.536362",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2000-05-09-20.49.52.875228",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Josef Jambor",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"2000-05-09-20.49.52.875228\",\r\n\"registrationNumber\": \"41004779\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"1620645349\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": true,\r\n     \"currency\": \"CZK\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"SEPA\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-25\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"CZK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 300000,\r\n     \"currency\": \"EUR\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nadlimit_FX flag_not LIVE_SB_CZK PL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.08.58.536362",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2000-05-09-20.49.52.875228",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Josef Jambor",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"2000-05-09-20.49.52.875228\",\r\n\"registrationNumber\": \"41004779\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"1620645349\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": true,\r\n     \"currency\": \"CZK\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"INTERNATIONAL\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-25\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"CZK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 300000,\r\n     \"currency\": \"EUR\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nadlimit_FX flag_not LIVE_SB_EUR",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.08.58.536362",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2000-05-09-20.49.52.875228",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Josef Jambor",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"2000-05-09-20.49.52.875228\",\r\n\"registrationNumber\": \"41004779\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"1793951213\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": true,\r\n     \"currency\": \"EUR\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"INTERNATIONAL\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-05T00:00Z\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"CZK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 3000000,\r\n     \"currency\": \"CZK\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nadlimit_not FX flag_SB",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.08.20.760010",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "9007-06-16-04.20.58.650152",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Petra Smrhova",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"9007-06-16-04.20.58.650152\",\r\n\"registrationNumber\": \"65734581\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"1466853309\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": true,\r\n     \"currency\": \"CZK\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"SEPA\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-14\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"SVK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 300000,\r\n     \"currency\": \"EUR\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CD-40337 nadlimitní SYM",
+					"item": [
+						{
+							"name": "Nadlimit_not FX flag_SYMB",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.03.30.980705",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2000-05-09-20.49.39.706700",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Vlastimil Král",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"2000-05-09-20.49.39.706700\",\r\n\"registrationNumber\": \"67748147\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"364024329\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": false,\r\n     \"currency\": \"CZK\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"INTERNATIONAL\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-25T00:00Z\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"SVK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 300000,\r\n     \"currency\": \"EUR\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nadlimit_not FX flag_SYMB PL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1997-04-09-17.03.30.980705",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2000-05-09-20.49.39.706700",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Vlastimil Král",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"2000-05-09-20.49.39.706700\",\r\n\"registrationNumber\": \"67748147\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"364024329\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": false,\r\n     \"currency\": \"CZK\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"INTERNATIONAL\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-24\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"SVK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 300000,\r\n     \"currency\": \"EUR\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Nadlimit_FX flag_not LIVE_SYMB",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "1999-09-24-17.40.07.469750",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "2000-11-28-01.34.23.003570",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Michal Marciniszyn",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"2000-11-28-01.34.23.003570\",\r\n\"registrationNumber\": \"25512285\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"2025576339\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": false,\r\n     \"currency\": \"CZK\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"SEPA\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-05T00:00Z\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"SVK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 300000,\r\n     \"currency\": \"EUR\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CD-40334 Logika zjištění kurzu - individuální SYM",
+					"item": [
+						{
+							"name": "Akreditováný",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "9007-05-26-20.39.38.390048",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "8015-02-17-14.48.37.081027",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Michal Korecký",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"2002-04-24-22.51.58.094804\",\r\n\"registrationNumber\": \"25101625\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"1368632\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": false,\r\n     \"currency\": \"EUR\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"SEPA\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-24\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"SVK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 30000,\r\n     \"currency\": \"CZK\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CD-40335 Logika zjištění kurzu - skupinoví SB",
+					"item": [
+						{
+							"name": "FX flag LIVE",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//Date generate\r",
+											"//Generate Tomorrow\r",
+											"var moment = require('moment');\r",
+											"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+											"//Generate today\r",
+											"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+											"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-cluid",
+										"value": "2003-04-18-02.37.28.011969",
+										"type": "text"
+									},
+									{
+										"key": "x-user-legal-person-cluid",
+										"value": "8017-01-06-15.59.04.090569",
+										"type": "text"
+									},
+									{
+										"key": "x-user-name",
+										"value": "Ruzena Mimrová",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"ownerCluid\": \"8017-01-06-15.59.04.090569\",\r\n\"registrationNumber\": \"05635748\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"4577283349\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": true,\r\n     \"currency\": \"CZK\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"SEPA\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-05T00:00Z\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"SVK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 3000,\r\n     \"currency\": \"EUR\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+									"host": [
+										"{{g4bApimBe2BeUrl}}"
+									],
+									"path": [
+										"info",
+										"regulation"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "infoRegulation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Check response\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"//End if not 200\r",
+									"if ((pm.response.code) != (200)) {\r",
+									"    return;\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Date generate\r",
+									"//Generate Tomorrow\r",
+									"var moment = require('moment');\r",
+									"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+									"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+									"//Generate today\r",
+									"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+									"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-user-cluid",
+								"value": "1997-04-09-17.02.58.033800",
+								"type": "text"
+							},
+							{
+								"key": "x-user-legal-person-cluid",
+								"value": "2002-04-24-22.51.58.094804",
+								"type": "text"
+							},
+							{
+								"key": "x-user-name",
+								"value": "Jaroslav Bartos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"ownerCluid\": \"2002-04-24-22.51.58.094804\",\r\n\"registrationNumber\": \"25101625\",\r\n\"account\": {\r\n    \"prefix\": \"\",\r\n    \"number\": \"1368632\",\r\n    \"bankCode\": \"0800\",\r\n    \"backendSB\": false,\r\n    \"currency\": \"CZK\"\r\n},\r\n\"payments\": [{\r\n    \"paymentCategory\": \"SEPA\",\r\n    \"priority\": \"STANDARD\",\r\n    \"paymentDate\": \"2022-10-05T00:00Z\",\r\n    \"receiver\": {\r\n        \"iban\": \"SK30 1100 1231 2312 3123 1231\",\r\n        \"bic\": \"TATRSKBX\",\r\n        \"bankCode\": \"1100\",\r\n        \"countryCode\": \"SVK\"\r\n},\r\n\"amount\": {\r\n    \"value\": 252,\r\n    \"currency\": \"EUR\",\r\n    \"precision\": 1\r\n}}],\r\n\"disposableBalance\": 152256.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+							"host": [
+								"{{g4bApimBe2BeUrl}}"
+							],
+							"path": [
+								"info",
+								"regulation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "infoRegulation Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Check response\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"//End if not 200\r",
+									"if ((pm.response.code) != (200)) {\r",
+									"    return;\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Date generate\r",
+									"//Generate Tomorrow\r",
+									"var moment = require('moment');\r",
+									"var paymentDateTomorrow = moment().add(1, 'day').format(\"YYYY-MM-DD\");\r",
+									"pm.environment.set(\"paymentDateTomorrow\", paymentDateTomorrow);\r",
+									"//Generate today\r",
+									"var paymentDateToday = moment().format(\"YYYY-MM-DD\");\r",
+									"pm.environment.set(\"paymentDateToday\", paymentDateToday);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-user-cluid",
+								"value": "1997-04-09-17.02.58.033800",
+								"type": "text"
+							},
+							{
+								"key": "x-user-legal-person-cluid",
+								"value": "2002-04-24-22.51.58.094804",
+								"type": "text"
+							},
+							{
+								"key": "x-user-name",
+								"value": "Jaroslav Bartos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"ownerCluid\": \"2000-05-09-20.49.52.875228\",\r\n\"registrationNumber\": \"41004779\",\r\n\"account\": {\r\n    \"prefix\": \"\",\r\n    \"number\": \"1620645349\",\r\n    \"bankCode\": \"0800\",\r\n    \"backendSB\": true,\r\n    \"currency\": \"CZK\"\r\n},\r\n\"payments\": [{\r\n    \"paymentCategory\": \"INTERNATIONAL\",\r\n    \"priority\": \"STANDARD\",\r\n    \"paymentDate\": \"2022-10-24\",\r\n    \"receiver\": {\r\n        \"iban\": \"SK30 1100 1231 2312 3123 1231\",\r\n        \"bic\": \"TATRSKBX\",\r\n        \"bankCode\": \"1100\",\r\n        \"countryCode\": \"SVK\"\r\n},\r\n\"amount\": {\r\n    \"value\": 252000,\r\n    \"currency\": \"XZY\",\r\n    \"precision\": 1\r\n}}],\r\n\"disposableBalance\": 152256.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+							"host": [
+								"{{g4bApimBe2BeUrl}}"
+							],
+							"path": [
+								"info",
+								"regulation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TBD Nadlimit_FX flag_not LIVE_SB_EUR to EUR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//pm.test(\"Status code is 200\", function () {\r",
+									"//   pm.response.to.have.status(200);\r",
+									"//});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-user-cluid",
+								"value": "1997-04-09-17.08.58.536362",
+								"type": "text"
+							},
+							{
+								"key": "x-user-legal-person-cluid",
+								"value": "2000-05-09-20.49.52.875228",
+								"type": "text"
+							},
+							{
+								"key": "x-user-name",
+								"value": "Josef Jamboz",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"ownerCluid\": \"2000-05-09-20.49.52.875228\",\r\n\"registrationNumber\": \"41004779\",\r\n\"account\": {\r\n     \"prefix\": \"\",\r\n     \"number\": \"1793951213\",\r\n     \"bankCode\": \"0800\",\r\n     \"backendSB\": true,\r\n     \"currency\": \"EUR\"\r\n     },\r\n\"payments\": [{\r\n\"paymentCategory\": \"SEPA\",\r\n\"priority\": \"STANDARD\",\r\n\"paymentDate\": \"2022-10-05T00:00Z\",\r\n\"receiver\": {\r\n     \"iban\": \"SK76 0900 0000 0051 3954 9870\",\r\n     \"bic\": \"GIBASKBX\",\r\n     \"bankCode\": \"0800\",\r\n     \"countryCode\": \"CZK\"\r\n     },\r\n\"amount\": {\r\n     \"value\": 3000000,\r\n     \"currency\": \"EUR\",\r\n     \"precision\": 1\r\n     }\r\n}\r\n],\r\n\"disposableBalance\": 1999000.4,\r\n\"streamId\": \"\",\r\n\"isLastSign\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{g4bApimBe2BeUrl}}/info/regulation",
+							"host": [
+								"{{g4bApimBe2BeUrl}}"
+							],
+							"path": [
+								"info",
+								"regulation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add( {key: 'Ocp-Apim-Subscription-Key', value: '{{OcpBe2BeApimKey}}' });"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Response must be valid and have body', ()=> {",
+					"    pm.expect(pm.response.to.be.withBody);",
+					"});",
+					"",
+					"pm.test('Header contains Content-Type application/json', ()=> {",
+					"    pm.expect(pm.response).to.have.header('Content-type');",
+					"    pm.expect(pm.response.headers.get('content-Type')).to.contain('application/json');",
+					"});",
+					"",
+					"pm.test('Response time is less than 6000ms', ()=> {",
+					"    pm.expect(pm.response.responseTime).to.be.below(6000);",
+					"});"
+				]
+			}
+		}
+	]
+}

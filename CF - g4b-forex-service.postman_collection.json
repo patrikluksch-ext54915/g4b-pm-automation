@@ -1,0 +1,1019 @@
+{
+	"info": {
+		"_postman_id": "08e2df8b-d4b6-4a48-83fa-973defa608b3",
+		"name": "CF - g4b-forex-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23141207"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const clients = ['zdenekKonecny','alesPokorny', 'marcelaAdamcova', 'antoninValenta', 'davidKarol', 'alexanderOravec', 'lenkaHajkova', 'lucieJiroudkova', 'pavelKrepelka', 'hanaFodorova', 'michalPribyl', 'olgaHorakova', 'zuzanaMasatova', 'tomasHerden', 'kristynaRousova', 'michaelaVikova', 'petrSpacek', 'ivanaPetrovicova', 'miroslavKupcik', 'janSuk','jiriOuborny', 'romanProchazka', 'petrBresky', 'marcelaNovotna']\r",
+									"\r",
+									"const auth = (cluid) => {\r",
+									"    const auth = {\r",
+									"        url: pm.variables.replaceIn(`{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_for_business&cluid={{${cluid}}}&expires_in=28800&scenario_key=s_authn_sca_pwd_sms`),\r",
+									"        method: 'GET'\r",
+									"    };\r",
+									"\r",
+									"    pm.sendRequest(auth, (error, response) => {\r",
+									"        if (error) {\r",
+									"            console.log(error);\r",
+									"        } else {\r",
+									"            const jsonData = response.json();\r",
+									"            pm.collectionVariables.set(`${cluid}Token`, jsonData.access_token);\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"clients.forEach(cluid => auth(cluid))\r",
+									"\r",
+									"const authInvalidAudience = (cluid) => {\r",
+									"    const auth = {\r",
+									"        url: pm.variables.replaceIn(`{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_ticketing_client&cluid=${cluid}&expires_in=28800&scenario_key=s_authn_sca_pwd_sms`),\r",
+									"        method: 'GET'\r",
+									"    };\r",
+									"\r",
+									"    pm.sendRequest(auth, (error, response) => {\r",
+									"        if (error) {\r",
+									"            console.log(error);\r",
+									"        } else {\r",
+									"            const jsonData = response.json();\r",
+									"            pm.collectionVariables.set(`InvalidAudienceToken`, jsonData.access_token);\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"authInvalidAudience('1997-04-10-22.11.11.258187')\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_for_business&cluid={{lenkaHajkova}}&expires_in=3600&scenario_key=s_authn_sca_pwd_sms",
+							"host": [
+								"{{mepTokenUrl}}"
+							],
+							"query": [
+								{
+									"key": "web-api-key",
+									"value": "{{mepTokenWebApiKey}}"
+								},
+								{
+									"key": "client_id",
+									"value": "george_for_business"
+								},
+								{
+									"key": "cluid",
+									"value": "{{lenkaHajkova}}"
+								},
+								{
+									"key": "expires_in",
+									"value": "3600"
+								},
+								{
+									"key": "scenario_key",
+									"value": "s_authn_sca_pwd_sms"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//Error tests",
+							"const keyMissingTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains status and errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: KEY_MISSING', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('KEY_MISSING');",
+							"    });",
+							"};",
+							"",
+							"const tokenMissingTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains status and errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Bearer error=\"token_missing\"', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"token_missing\"');",
+							"    });",
+							"};",
+							"",
+							"const tokenInvalidTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Bearer error=\"invalid_token', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\"');",
+							"    });",
+							"};",
+							"",
+							"const tokenInvalidAudienceTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains errors array', () => {",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Audience error=\"invalid_audience\"', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Audience error=\"invalid_audience\"');",
+							"    });",
+							"};",
+							"",
+							"pm.collectionVariables.set('keyMissingTests', keyMissingTests.toString());",
+							"pm.collectionVariables.set('tokenMissingTests', tokenMissingTests.toString());",
+							"pm.collectionVariables.set('tokenInvalidTests', tokenInvalidTests.toString());",
+							"pm.collectionVariables.set('tokenInvalidAudienceTests', tokenInvalidAudienceTests.toString());",
+							"pm.collectionVariables.set('invalidToken', '3/7nz8H096eb8Gf014OD85brFae1OpIBoGnMbDmwGhO8PYAzTtaoiN864QCnbRbxXm');",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "GET /info/fx",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "without params",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const eurcurrencyObj = response.fx.find(currency => currency.currency === 'EUR');\r",
+											"const cache = 10; // EXPIRATION_PERIOD_MINUTES;\r",
+											"const now = new Date();\r",
+											"const time = now.getTime();\r",
+											"const diff = time - Date.parse(response.lastUpdated);\r",
+											"const minToMillis = (min) => {\r",
+											"    return min * 60000;\r",
+											"};\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(`Last currency update is not older than ${cache} min`, () => {\r",
+											"    pm.expect(diff).to.be.at.most(minToMillis(cache));\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(eurcurrencyObj).to.be.an('object');\r",
+											"    pm.expect(eurcurrencyObj.currency).to.eql('EUR');\r",
+											"    pm.expect(eurcurrencyObj.nameI18N).to.eql('Euro');\r",
+											"    pm.expect(eurcurrencyObj.flags).to.include('provided');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/fx",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"fx"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "with one currencyCodes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.fx).to.have.lengthOf(1);\r",
+											"    pm.expect(response.fx[0]).to.be.an('object');\r",
+											"    pm.expect(response.fx[0].currency).to.eql('EUR');\r",
+											"    pm.expect(response.fx[0].nameI18N).to.eql('Euro');\r",
+											"    pm.expect(response.fx[0].flags).to.include('provided');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/fx?currencyCodes=EUR",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"fx"
+									],
+									"query": [
+										{
+											"key": "currencyCodes",
+											"value": "EUR"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "with more currencyCodes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.fx).to.have.lengthOf(2);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/fx?currencyCodes=EUR,CHF",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"fx"
+									],
+									"query": [
+										{
+											"key": "currencyCodes",
+											"value": "EUR,CHF"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "with invalid currencyCodes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.fx).to.be.empty;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/fx?currencyCodes=inv",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"fx"
+									],
+									"query": [
+										{
+											"key": "currencyCodes",
+											"value": "inv"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "validate schema",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"required\": [\r",
+											"        \"lastUpdated\",\r",
+											"        \"fx\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"lastUpdated\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"fx\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"minItems\": 30,\r",
+											"            \"maxItems\": 50,\r",
+											"            \"uniqueItems\": true,\r",
+											"            \"additionalItems\": false,\r",
+											"            \"items\": {\r",
+											"                \"anyOf\": [\r",
+											"                    {\r",
+											"                        \"type\": \"object\",\r",
+											"                        \"required\": [\r",
+											"                            \"currency\",\r",
+											"                            \"precision\",\r",
+											"                            \"exchangeRate\",\r",
+											"                            \"rateUnit\",\r",
+											"                            \"nameI18N\",\r",
+											"                            \"flags\"\r",
+											"                        ],\r",
+											"                        \"properties\": {\r",
+											"                            \"currency\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"precision\": {\r",
+											"                                \"type\": \"integer\"\r",
+											"                            },\r",
+											"                            \"exchangeRate\": {\r",
+											"                                \"type\": \"object\",\r",
+											"                                \"required\": [\r",
+											"                                    \"buy\",\r",
+											"                                    \"sell\",\r",
+											"                                    \"lastModified\",\r",
+											"                                    \"middle\",\r",
+											"                                    \"indicator\"\r",
+											"                                ],\r",
+											"                                \"properties\": {\r",
+											"                                    \"buy\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"sell\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"lastModified\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    },\r",
+											"                                    \"middle\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"indicator\": {\r",
+											"                                        \"type\": \"integer\"\r",
+											"                                    }\r",
+											"                                },\r",
+											"                                \"additionalProperties\": false\r",
+											"                            },\r",
+											"                            \"rateUnit\": {\r",
+											"                                \"type\": \"integer\"\r",
+											"                            },\r",
+											"                            \"nameI18N\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"flags\": {\r",
+											"                                \"type\": \"array\",\r",
+											"                                \"minItems\": 1,\r",
+											"                                \"maxItems\": 1,\r",
+											"                                \"uniqueItems\": true,\r",
+											"                                \"additionalItems\": false,\r",
+											"                                \"items\": {\r",
+											"                                    \"anyOf\": [\r",
+											"                                        {\r",
+											"                                            \"type\": \"string\"\r",
+											"                                        }\r",
+											"                                    ]\r",
+											"                                }\r",
+											"                            }\r",
+											"                        },\r",
+											"                        \"additionalProperties\": false\r",
+											"                    },\r",
+											"                    {\r",
+											"                        \"type\": \"object\",\r",
+											"                        \"required\": [\r",
+											"                            \"currency\",\r",
+											"                            \"precision\",\r",
+											"                            \"exchangeRate\",\r",
+											"                            \"rateUnit\",\r",
+											"                            \"nameI18N\",\r",
+											"                            \"banknoteRate\",\r",
+											"                            \"flags\"\r",
+											"                        ],\r",
+											"                        \"properties\": {\r",
+											"                            \"currency\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"precision\": {\r",
+											"                                \"type\": \"integer\"\r",
+											"                            },\r",
+											"                            \"exchangeRate\": {\r",
+											"                                \"type\": \"object\",\r",
+											"                                \"required\": [\r",
+											"                                    \"buy\",\r",
+											"                                    \"sell\",\r",
+											"                                    \"lastModified\",\r",
+											"                                    \"middle\",\r",
+											"                                    \"indicator\"\r",
+											"                                ],\r",
+											"                                \"properties\": {\r",
+											"                                    \"buy\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"sell\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"lastModified\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    },\r",
+											"                                    \"middle\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"indicator\": {\r",
+											"                                        \"type\": \"integer\"\r",
+											"                                    }\r",
+											"                                },\r",
+											"                                \"additionalProperties\": false\r",
+											"                            },\r",
+											"                            \"rateUnit\": {\r",
+											"                                \"type\": \"integer\"\r",
+											"                            },\r",
+											"                            \"nameI18N\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"banknoteRate\": {\r",
+											"                                \"type\": \"object\",\r",
+											"                                \"required\": [\r",
+											"                                    \"buy\",\r",
+											"                                    \"sell\",\r",
+											"                                    \"lastModified\",\r",
+											"                                    \"middle\",\r",
+											"                                    \"indicator\"\r",
+											"                                ],\r",
+											"                                \"properties\": {\r",
+											"                                    \"buy\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"sell\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"lastModified\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    },\r",
+											"                                    \"middle\": {\r",
+											"                                        \"type\": \"number\"\r",
+											"                                    },\r",
+											"                                    \"indicator\": {\r",
+											"                                        \"type\": \"integer\"\r",
+											"                                    }\r",
+											"                                },\r",
+											"                                \"additionalProperties\": false\r",
+											"                            },\r",
+											"                            \"flags\": {\r",
+											"                                \"type\": \"array\",\r",
+											"                                \"uniqueItems\": true,\r",
+											"                                \"additionalItems\": false,\r",
+											"                                \"items\": {\r",
+											"                                    \"anyOf\": [\r",
+											"                                        {\r",
+											"                                            \"type\": \"string\"\r",
+											"                                        }\r",
+											"                                    ]\r",
+											"                                }\r",
+											"                            }\r",
+											"                        },\r",
+											"                        \"additionalProperties\": false\r",
+											"                    }\r",
+											"                ]\r",
+											"            }\r",
+											"        }\r",
+											"    },\r",
+											"    \"additionalProperties\": false\r",
+											"}\r",
+											"\r",
+											"pm.test('Schema is valid', () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/info/fx",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"info",
+										"fx"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "401 subscription key missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Ocp-Apim-Subscription-Key');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('keyMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Client-Accept-Language",
+												"value": "cs",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{g4bUrl}}/info/fx",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"fx"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Client-Accept-Language",
+												"value": "cs",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{g4bUrl}}/info/fx",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"fx"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{invalidToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Client-Accept-Language",
+												"value": "cs",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{g4bUrl}}/info/fx",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"fx"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid audience",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{InvalidAudienceToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidAudienceTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/info/fx",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"info",
+												"fx"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{lenkaHajkovaToken}}' });",
+					"pm.request.headers.add({ key: 'Ocp-Apim-Subscription-Key', value: '{{OcpApimKey}}' });",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Response must be valid and have body', ()=> {",
+					"    pm.expect(pm.response.to.be.withBody);",
+					"});",
+					"",
+					"pm.test('Header contains Content-Type application/json', ()=> {",
+					"    pm.expect(pm.response).to.have.header('Content-type');",
+					"    pm.expect(pm.response.headers.get('content-Type')).to.contain('application/json');",
+					"});",
+					"",
+					"pm.test('Response time is less than 6000ms', ()=> {",
+					"    pm.expect(pm.response.responseTime).to.be.below(6000);",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "keyMissingTests",
+			"value": ""
+		},
+		{
+			"key": "tokenMissingTests",
+			"value": ""
+		},
+		{
+			"key": "tokenInvalidTests",
+			"value": ""
+		},
+		{
+			"key": "tokenInvalidAudienceTests",
+			"value": ""
+		},
+		{
+			"key": "invalidToken",
+			"value": ""
+		},
+		{
+			"key": "lenkaHajkovaToken",
+			"value": ""
+		},
+		{
+			"key": "miroslavKupcikToken",
+			"value": ""
+		},
+		{
+			"key": "marcelaAdamcovaToken",
+			"value": ""
+		},
+		{
+			"key": "tomasHerdenToken",
+			"value": ""
+		},
+		{
+			"key": "jiriOubornyToken",
+			"value": ""
+		},
+		{
+			"key": "lucieJiroudkovaToken",
+			"value": ""
+		},
+		{
+			"key": "hanaFodorovaToken",
+			"value": ""
+		},
+		{
+			"key": "InvalidAudienceToken",
+			"value": ""
+		},
+		{
+			"key": "kristynaRousovaToken",
+			"value": ""
+		},
+		{
+			"key": "petrSpacekToken",
+			"value": ""
+		},
+		{
+			"key": "alesPokornyToken",
+			"value": ""
+		},
+		{
+			"key": "petrBreskyToken",
+			"value": ""
+		},
+		{
+			"key": "janSukToken",
+			"value": ""
+		},
+		{
+			"key": "zuzanaMasatovaToken",
+			"value": ""
+		},
+		{
+			"key": "antoninValentaToken",
+			"value": ""
+		},
+		{
+			"key": "romanProchazkaToken",
+			"value": ""
+		},
+		{
+			"key": "pavelKrepelkaToken",
+			"value": ""
+		},
+		{
+			"key": "ivanaPetrovicovaToken",
+			"value": ""
+		},
+		{
+			"key": "zdenekKonecnyToken",
+			"value": ""
+		},
+		{
+			"key": "michaelaVikovaToken",
+			"value": ""
+		},
+		{
+			"key": "michalPribylToken",
+			"value": ""
+		},
+		{
+			"key": "olgaHorakovaToken",
+			"value": ""
+		},
+		{
+			"key": "alexanderOravecToken",
+			"value": ""
+		},
+		{
+			"key": "marcelaNovotnaToken",
+			"value": ""
+		},
+		{
+			"key": "davidKarolToken",
+			"value": ""
+		}
+	]
+}

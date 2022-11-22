@@ -1,0 +1,585 @@
+{
+	"info": {
+		"_postman_id": "028d7295-1cce-402b-929a-97f190db13e3",
+		"name": "Be2Be - g4b-dispo-replication-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23141207"
+	},
+	"item": [
+		{
+			"name": "GET /v2/dispo/{cluid}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "{{lenkaHajkova}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/{{lenkaHajkova}}",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"{{lenkaHajkova}}"
+					],
+					"query": [
+						{
+							"key": "userCluid",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid} Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "2000-05-12-00.52.58.967601",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/2000-05-12-00.52.58.967601",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"2000-05-12-00.52.58.967601"
+					],
+					"query": [
+						{
+							"key": "userCluid",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid} B24 - Rauschová",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "1997-04-09-17.03.09.989923",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/1997-04-09-17.03.09.989923",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"1997-04-09-17.03.09.989923"
+					],
+					"query": [
+						{
+							"key": "userCluid",
+							"value": "1997-04-09-17.03.09.989923",
+							"description": "Rauschova",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid} G4B - cosign",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "1997-04-09-17.08.12.006907",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/1997-04-09-17.08.12.006907",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"1997-04-09-17.08.12.006907"
+					],
+					"query": [
+						{
+							"key": "userCluid",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid} G4B - sign",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "1998-05-07-01.10.22.682779",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/1998-05-07-01.10.22.682779",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"1998-05-07-01.10.22.682779"
+					],
+					"query": [
+						{
+							"key": "userCluid",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid} B24",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "1998-10-27-03.38.48.731998",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/1998-10-27-03.38.48.731998",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"1998-10-27-03.38.48.731998"
+					],
+					"query": [
+						{
+							"key": "userCluid",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid} G4B - RC nevraci nic?",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "9005-06-30-12.36.06.768745",
+						"type": "text",
+						"description": "Request card (aktivní oprávnění ke kartě)\tcard:administrate"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/9005-06-30-12.36.06.768745",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"9005-06-30-12.36.06.768745"
+					],
+					"query": [
+						{
+							"key": "userCluid",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid}/{legalPersonCluid}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "{{lenkaHajkova}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/{{lenkaHajkova}}?legalPersonCluid=2000-05-09-20.50.01.875551",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"{{lenkaHajkova}}"
+					],
+					"query": [
+						{
+							"key": "legalPersonCluid",
+							"value": "2000-05-09-20.50.01.875551",
+							"description": "OKULA Nýrsko a.s."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid}/{legalPersonCluid} Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "{{lenkaHajkova}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/1998-05-07-00.49.24.293421?legalPersonCluid=8015-09-21-16.07.41.029459",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"1998-05-07-00.49.24.293421"
+					],
+					"query": [
+						{
+							"key": "legalPersonCluid",
+							"value": "8015-09-21-16.07.41.029459",
+							"description": "FUTURAMA ASSETS II a.s."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid}/{licenseId}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "1997-04-09-17.08.12.006907",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/1997-04-09-17.08.12.006907?licenseId=d264e2db-db9d-4ebb-bb41-61fa9ea72c04",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"1997-04-09-17.08.12.006907"
+					],
+					"query": [
+						{
+							"key": "licenseId",
+							"value": "d264e2db-db9d-4ebb-bb41-61fa9ea72c04",
+							"description": "SVOBODA-výroba domácích knedlíků, s.r.o."
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v2/dispo/{cluid}/{productHashedIds}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "{{lenkaHajkova}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/v2/dispo/{{lenkaHajkova}}?productHashedIds=F222FB12804FF7D23AAD57EEED22AE53092459D1,5C4AD18FC1D7B62AEB965B21CE6082662876345A",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"v2",
+						"dispo",
+						"{{lenkaHajkova}}"
+					],
+					"query": [
+						{
+							"key": "productHashedIds",
+							"value": "F222FB12804FF7D23AAD57EEED22AE53092459D1,5C4AD18FC1D7B62AEB965B21CE6082662876345A"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /dispo/{cluid}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "{{lenkaHajkova}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/dispo/{{lenkaHajkova}}",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"dispo",
+						"{{lenkaHajkova}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /dispo/{cluid} Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-cluid",
+						"value": "1997-04-09-17.03.09.989923",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{g4bApimBe2BeUrl}}/dispo/1997-04-09-17.03.09.989923",
+					"host": [
+						"{{g4bApimBe2BeUrl}}"
+					],
+					"path": [
+						"dispo",
+						"1997-04-09-17.03.09.989923"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add( {key: 'Ocp-Apim-Subscription-Key', value: '{{OcpBe2BeApimKey}}' });"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Response must be valid and have body', ()=> {",
+					"    pm.expect(pm.response.to.be.withBody);",
+					"});",
+					"",
+					"pm.test('Header contains Content-Type application/json', ()=> {",
+					"    pm.expect(pm.response).to.have.header('Content-type');",
+					"    pm.expect(pm.response.headers.get('content-Type')).to.contain('application/json');",
+					"});",
+					"",
+					"pm.test('Response time is less than 6000ms', ()=> {",
+					"    pm.expect(pm.response.responseTime).to.be.below(6000);",
+					"});"
+				]
+			}
+		}
+	]
+}

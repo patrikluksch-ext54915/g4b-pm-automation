@@ -1,0 +1,3039 @@
+{
+	"info": {
+		"_postman_id": "5c764d66-19f3-4766-97d5-bed437b0540e",
+		"name": "G4B-Payments from Payments team",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23141207"
+	},
+	"item": [
+		{
+			"name": "payments4b-single",
+			"item": [
+				{
+					"name": "domestic",
+					"item": [
+						{
+							"name": "create",
+							"item": [
+								{
+									"name": "POST /my/orders/payments/domestic",
+									"item": [
+										{
+											"name": "positive",
+											"item": [
+												{
+													"name": "minimum SBK",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	"pm.request.headers.add({ key: 'web-api-key', value: '{{OcpApimKey}}' });"
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"receiver\": {\r\n        \"number\": \"3759647399\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "101. Padá to proto, že Kolenáková je JEN Zmocněná osoba k účtu? (Martionov má i aktivní právo a jde mu to)",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{sarkaKolenakovaToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"receiver\": {\r\n        \"number\": \"3759647399\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "LucieJiroudkova - Ok (má jen tento účet v Dispu)",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{lucieJiroudkovaToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"sender\": {\r\n        \"number\": \"4433452\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"receiver\": {\r\n        \"number\": \"3759647399\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "152. Miloš Hřibal a ten je S24 není v Dispu",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{milosHribalToken}}' });\r",
+																	"\r",
+																	"\r",
+																	"//Hříbalovo číslo účtu = 243797309 - je V MCI s plnými právy, ale není v Dispu. backend = SBK.\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"sender\": {\r\n        \"number\": \"243797309\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"receiver\": {\r\n        \"number\": \"3759647399\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "number + iban SBK",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "number account SBK Rauschová-PROČ SENDER:FIELD_INVALID? (je to tím, že nemá Aktivní právo?)",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{danaRauschovaToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"sender\": {\r\n        \"number\": \"1936834349\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "number SBK (Matějka)",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{josefMatejkaToken}}' });\r",
+																	"\r",
+																	"/*josefMatejka je jako Martin Boyanov Martinov s aktivními právy na účet, takže na aktivní operace fakt potřebuje i aktivní práva k účtu\r",
+																	"*/\r",
+																	"\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"sender\": {\r\n        \"number\": \"1141050399\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 200,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "number SBK (Oláh)",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{emilOlahToken}}' });\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"sender\": {\r\n        \"number\": \"428468309\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 200,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "stanislavZidek CONTR_TYPE = S24, CLNT_TYPE = PO - OK!",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{stanislavZidekToken}}' });\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"sender\": {\r\n        \"number\": \"212842349\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 200,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "153.Cluid ani account není v MCI databázi, je to Retailový účet zřejmě. platba jde! wtf?",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{radekLinhartToken}}' });\r",
+																	"\r",
+																	"\r",
+																	"//Cluid ani account není v MCI databázi, je to Retailový účet zřejmě\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"sender\": {\r\n        \"number\": \"434653359\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 200,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "151. EUR number SBK (Jirkovsky) -Error Order_Not_Possible",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{karelJirkovskyToken}}' });\r",
+																	"\r",
+																	"///má EUR účet a chci poslat CZK.\r",
+																	"//nejde ani když má EUR a chce poslat EUR.\r",
+																	"//Je v Dispu i v MCI\r",
+																	"\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"sender\": {\r\n        \"number\": \"1747487253\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 200,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "number account SYM ToDo konec červenec",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{jaroslavBartosToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"sender\": {\r\n        \"number\": \"1009432023\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "iban SBK",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\",\r\n        \"blablabla\": \"blaa\"\r\n    },\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\",\r\n        \"number\": \"3759647399\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "flag \"urgent\" (jen do jiných bank)",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0100\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\",\r\n        \"urgent\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "CZK->CZK (CZK) ToDo",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Banán Sčokoladou\",\r\n    \"receiverName\": \"Horký Maliny\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"test Robik\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "CZK->CZK (EUR) ToDo",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Banán Sčokoladou\",\r\n    \"receiverName\": \"Horký Maliny\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"EUR\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"test Robik\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "create EUR Copy",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Banán Sčokoladou\",\r\n    \"receiverName\": \"Horký Maliny\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"test Robik\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "create - Starbank ToDo",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Banán Sčokoladou\",\r\n    \"receiverName\": \"Horký Maliny\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"test Robik\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "create - Symbols ToDo",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Banán Sčokoladou\",\r\n    \"receiverName\": \"Horký Maliny\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"test Robik\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "negative",
+											"item": [
+												{
+													"name": "text4x35 - TOO_MANY_ITEMS",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{MartinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"const randomLimitValue = pm.variables.get('randomLimitValue');\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\",\r\n            \"ZAKÁZANÉ PÁTÉ POLÍČKO NA TEXT\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments/domestic",
+															"protocol": "https",
+															"host": [
+																"webapi-webapgforb-int",
+																"nocp",
+																"vs",
+																"csin",
+																"cz"
+															],
+															"path": [
+																"webapi",
+																"api",
+																"v1",
+																"g4b",
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "flag \"urgent\" pro Spořku - CZ-EP_INVALID_RECEIVER",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{MartinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.state).to.eql('OPEN');\r",
+																	"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"number\": \"123123123\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\",\r\n        \"urgent\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "sign \"method\"",
+							"item": [
+								{
+									"name": "POST /my/orders/payments/{signId}/sign/{signIdOrHash}",
+									"item": [
+										{
+											"name": "positive",
+											"item": [
+												{
+													"name": "sign method",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{MartinBoyanovMartinovToken}}' });\r",
+																	"\r",
+																	"const body = {\r",
+																	"    \"receiver\": {\r",
+																	"        \"iban\": \"CZ1508000000003759647399\",\r",
+																	"        \"bic\": \"GIBACZPX\"\r",
+																	"    },\r",
+																	"    \"sender\": {\r",
+																	"        \"number\": \"5394825349\",\r",
+																	"        \"bankCode\": \"0800\",\r",
+																	"        \"countryCode\": \"CZ\",\r",
+																	"        \"cz-iban\": \"CZ8708000000005394825349\",\r",
+																	"        \"cz-bic\": \"GIBACZPX\"\r",
+																	"    },\r",
+																	"    \"senderName\": \"ZÁKLAD Jmeníčko odesilatele\",\r",
+																	"    \"receiverName\": \"ZÁKLAD Jmeníčko příjemce\",\r",
+																	"    \"amount\": {\r",
+																	"        \"value\": 1900,\r",
+																	"        \"currency\": \"CZK\",\r",
+																	"        \"precision\": 2\r",
+																	"    },\r",
+																	"    \"flags\": [\r",
+																	"        \"transferDateWhenSigningDone\"\r",
+																	"    ],\r",
+																	"    \"additionalInfo\": {\r",
+																	"        \"text4x35\": [\r",
+																	"            \"ZÁKLAD pro změnu políčka na první\",\r",
+																	"            \"políčka na druhý text\",\r",
+																	"            \"políčka na třetí text\",\r",
+																	"            \"políčka na čtvrtý text\"\r",
+																	"        ]\r",
+																	"    }\r",
+																	"};\r",
+																	"\r",
+																	"\r",
+																	"const createdPayment = {\r",
+																	"    url: pm.variables.replaceIn(`{{paymentsUrl}}/my/orders/payments/domestic`),\r",
+																	"    method: 'POST',\r",
+																	"    header: {\r",
+																	"        'content-type': 'application/json',\r",
+																	"        'web-api-key': pm.variables.replaceIn('{{g4bWebApiKey}}'),\r",
+																	"        'Authorization': pm.variables.replaceIn('Bearer {{MartinBoyanovMartinovToken}}')\r",
+																	"    },\r",
+																	"        body: {\r",
+																	"        mode: 'raw',\r",
+																	"        raw: body\r",
+																	"    }\r",
+																	"};\r",
+																	"\r",
+																	"pm.sendRequest(createdPayment, (error, response) => {\r",
+																	"    if (error) {\r",
+																	"        console.log(error);\r",
+																	"    } else {\r",
+																	"        const jsonData = response.json();\r",
+																	"        try {\r",
+																	"            const id = jsonData.id;\r",
+																	"            pm.variables.set('id', id);\r",
+																	"            const hash = jsonData.signInfo.signId;\r",
+																	"            pm.variables.set('hash', hash);\r",
+																	"        } catch (err) {\r",
+																	"            console.log(err);\r",
+																	"        }\r",
+																	"    }\r",
+																	"});\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo.hash).to.eql(pm.variables.get('hash'));  //důležité\r",
+																	"    pm.expect(response.signInfo.signId).to.eql(pm.variables.get('id'));   //důležité\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('OPEN'); //stále stav OPEN!\r",
+																	"    pm.expect(response.authorizationType).to.eql('TAC');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"authorizationType\": \"TAC\"\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/{{id}}/sign/{{hash}}",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"{{id}}",
+																"sign",
+																"{{hash}}"
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "sign \"approval\"",
+							"item": [
+								{
+									"name": "PUT /my/orders/payments/{signId}/sign/{signIdOrHash}",
+									"item": [
+										{
+											"name": "positive",
+											"item": [
+												{
+													"name": "sign approval",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{MartinBoyanovMartinovToken}}' });\r",
+																	"\r",
+																	"const body = {\r",
+																	"    \"receiver\": {\r",
+																	"        \"iban\": \"CZ1508000000003759647399\",\r",
+																	"        \"bic\": \"GIBACZPX\"\r",
+																	"    },\r",
+																	"    \"sender\": {\r",
+																	"        \"number\": \"5394825349\",\r",
+																	"        \"bankCode\": \"0800\",\r",
+																	"        \"countryCode\": \"CZ\",\r",
+																	"        \"cz-iban\": \"CZ8708000000005394825349\",\r",
+																	"        \"cz-bic\": \"GIBACZPX\"\r",
+																	"    },\r",
+																	"    \"senderName\": \"Jmeníčko odesilatele\",\r",
+																	"    \"receiverName\": \"Jmeníčko příjemce\",\r",
+																	"    \"amount\": {\r",
+																	"        \"value\": 1100,\r",
+																	"        \"currency\": \"CZK\",\r",
+																	"        \"precision\": 2\r",
+																	"    },\r",
+																	"    \"flags\": [\r",
+																	"        \"transferDateWhenSigningDone\"\r",
+																	"    ],\r",
+																	"    \"additionalInfo\": {\r",
+																	"        \"text4x35\": [\r",
+																	"            \"první text,\",\r",
+																	"            \"druhý text,\",\r",
+																	"            \"třetí text,\",\r",
+																	"            \"čtvrtý text\"\r",
+																	"        ]\r",
+																	"    }\r",
+																	"};\r",
+																	"\r",
+																	"\r",
+																	"const createdPayment = {\r",
+																	"    url: pm.variables.replaceIn(`{{paymentsUrl}}/my/orders/payments/domestic`),\r",
+																	"    method: 'POST',\r",
+																	"    header: {\r",
+																	"        'content-type': 'application/json',\r",
+																	"        'web-api-key': pm.variables.replaceIn('{{g4bWebApiKey}}'),\r",
+																	"        'Authorization': pm.variables.replaceIn('Bearer {{MartinBoyanovMartinovToken}}')\r",
+																	"    },\r",
+																	"        body: {\r",
+																	"        mode: 'raw',\r",
+																	"        raw: body\r",
+																	"    }\r",
+																	"};\r",
+																	"\r",
+																	"pm.sendRequest(createdPayment, (error, response) => {\r",
+																	"    if (error) {\r",
+																	"        console.log(error);\r",
+																	"    } else {\r",
+																	"        const jsonData = response.json();\r",
+																	"        try {\r",
+																	"            const id = jsonData.id;\r",
+																	"            pm.variables.set('id', id);\r",
+																	"            const hash = jsonData.signInfo.signId;\r",
+																	"            pm.variables.set('hash', hash);\r",
+																	"        } catch (err) {\r",
+																	"            console.log(err);\r",
+																	"        }\r",
+																	"    };\r",
+																	"\r",
+																	"const POSTsignMethod = {\r",
+																	"    url: pm.variables.replaceIn(`{{paymentsUrl}}/my/orders/payments/{{id}}/sign/{{hash}}`),\r",
+																	"    method: 'POST',\r",
+																	"    header: {\r",
+																	"        'content-type': 'application/json',\r",
+																	"        'web-api-key': pm.variables.replaceIn('{{g4bWebApiKey}}'),\r",
+																	"        'Authorization': pm.variables.replaceIn('Bearer {{MartinBoyanovMartinovToken}}')\r",
+																	"    },\r",
+																	"        body: {\r",
+																	"        mode: 'raw',\r",
+																	"        raw: {\r",
+																	"    \"authorizationType\": \"TAC\"\r",
+																	"}\r",
+																	"    }\r",
+																	"};\r",
+																	"\r",
+																	"    pm.sendRequest(POSTsignMethod, (error, response) => {\r",
+																	"        if (error) {\r",
+																	"        console.log(error);\r",
+																	"        } else {\r",
+																	"            const resPOSTsignMethod = response.json();\r",
+																	"            try {\r",
+																	"                pm.expect(resPOSTsignMethod.signInfo.hash).to.eql(pm.variables.get('hash'));  //ověření, že je signId z Post create stejné jako hash z Post sign method\r",
+																	"                pm.expect(resPOSTsignMethod.signInfo.signId).to.eql(pm.variables.get('id')); \r",
+																	"                pm.expect(response.code).to.eql(200);\r",
+																	"                pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"            } catch (err) {\r",
+																	"                console.log(err);\r",
+																	"            }\r",
+																	"        }\r",
+																	"    });\r",
+																	"});"
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"    pm.expect(response.signInfo).to.be.an('object');\r",
+																	"    pm.expect(response.signInfo.state).to.eql('DONE'); //stále stav OPEN!\r",
+																	"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "PUT",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n  \"authorizationType\": \"TAC\",\r\n  \"oneTimePassword\": \"00000000\"\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/{{id}}/sign/{{hash}}",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"{{id}}",
+																"sign",
+																"{{hash}}"
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "change",
+							"item": [
+								{
+									"name": "PUT /my/orders/payments/domestic/Id",
+									"item": [
+										{
+											"name": "positive",
+											"item": [
+												{
+													"name": "change",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{MartinBoyanovMartinovToken}}' });\r",
+																	"\r",
+																	"const body = {\r",
+																	"    \"receiver\": {\r",
+																	"        \"iban\": \"CZ1508000000003759647399\",\r",
+																	"        \"bic\": \"GIBACZPX\"\r",
+																	"    },\r",
+																	"    \"sender\": {\r",
+																	"        \"number\": \"5394825349\",\r",
+																	"        \"bankCode\": \"0800\",\r",
+																	"        \"countryCode\": \"CZ\",\r",
+																	"        \"cz-iban\": \"CZ8708000000005394825349\",\r",
+																	"        \"cz-bic\": \"GIBACZPX\"\r",
+																	"    },\r",
+																	"    \"senderName\": \"ZÁKLAD Jmeníčko odesilatele\",\r",
+																	"    \"receiverName\": \"ZÁKLAD Jmeníčko příjemce\",\r",
+																	"    \"amount\": {\r",
+																	"        \"value\": 1100,\r",
+																	"        \"currency\": \"CZK\",\r",
+																	"        \"precision\": 2\r",
+																	"    },\r",
+																	"    \"flags\": [\r",
+																	"        \"transferDateWhenSigningDone\"\r",
+																	"    ],\r",
+																	"    \"additionalInfo\": {\r",
+																	"        \"text4x35\": [\r",
+																	"            \"ZÁKLAD pro změnu políčka na první\",\r",
+																	"            \"políčka na druhý text\",\r",
+																	"            \"políčka na třetí text\",\r",
+																	"            \"políčka na čtvrtý text\"\r",
+																	"        ]\r",
+																	"    }\r",
+																	"};\r",
+																	"\r",
+																	"\r",
+																	"const createdPayment = {\r",
+																	"    url: pm.variables.replaceIn(`{{paymentsUrl}}/my/orders/payments/domestic`),\r",
+																	"    method: 'POST',\r",
+																	"    header: {\r",
+																	"        'content-type': 'application/json',\r",
+																	"        'web-api-key': pm.variables.replaceIn('{{g4bWebApiKey}}'),\r",
+																	"        'Authorization': pm.variables.replaceIn('Bearer {{MartinBoyanovMartinovToken}}')\r",
+																	"    },\r",
+																	"        body: {\r",
+																	"        mode: 'raw',\r",
+																	"        raw: body\r",
+																	"    }\r",
+																	"};\r",
+																	"\r",
+																	"pm.sendRequest(createdPayment, (error, response) => {\r",
+																	"    if (error) {\r",
+																	"        console.log(error);\r",
+																	"    } else {\r",
+																	"        const jsonData = response.json();\r",
+																	"        try {\r",
+																	"            const id = jsonData.id;\r",
+																	"            pm.variables.set('id', id);\r",
+																	"        } catch (err) {\r",
+																	"            console.log(err);\r",
+																	"        }\r",
+																	"    }\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"pm.test('Response contains correct values', () => {\r",
+																	"   pm.expect(response.signInfo).to.be.an('object');\r",
+																	"   pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+																	"   pm.expect(response.state).to.eql('OPEN');\r",
+																	"   pm.expect(response.signInfo.signId).to.be.a('string');\r",
+																	"    //a další\r",
+																	"});\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "PUT",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"id\": {{id}},\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"ZMĚNA Jmeníčko odesilatele\",\r\n    \"receiverName\": \"ZMĚNA Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"ZMĚNA pro změnu políčka na první\",\r\n            \"ZMĚNA políčka na druhý text\",\r\n            \"ZMĚNA políčka na třetí text\",\r\n            \"ZMĚNA políčka na čtvrtý text\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{paymentsUrl}}/my/orders/payments/domestic/{{id}}",
+															"host": [
+																"{{paymentsUrl}}"
+															],
+															"path": [
+																"my",
+																"orders",
+																"payments",
+																"domestic",
+																"{{id}}"
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "negative",
+											"item": [
+												{
+													"name": "text4x35 - TOO_MANY_ITEMS",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{MartinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														},
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"const response = pm.response.json();\r",
+																	"const randomLimitValue = pm.variables.get('randomLimitValue');\r",
+																	"\r",
+																	"pm.test('Status code is 200', () => {\r",
+																	"    pm.response.to.have.status(200);\r",
+																	"});\r",
+																	"\r",
+																	"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"políčka na první text\",\r\n            \"políčka na druhý text\",\r\n            \"políčka na třetí text\",\r\n            \"políčka na čtvrtý text\",\r\n            \"ZAKÁZANÉ PÁTÉ POLÍČKO NA TEXT\"\r\n        ]\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments/domestic",
+															"protocol": "https",
+															"host": [
+																"webapi-webapgforb-int",
+																"nocp",
+																"vs",
+																"csin",
+																"cz"
+															],
+															"path": [
+																"webapi",
+																"api",
+																"v1",
+																"g4b",
+																"my",
+																"orders",
+																"payments",
+																"domestic"
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "GET /my/orders/payments/{signId}/sign/{signIdOrHash}",
+							"item": [
+								{
+									"name": "get ToDo",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{MartinBoyanovMartinovToken}}' });\r",
+													"\r",
+													"const body = {\r",
+													"    \"receiver\": {\r",
+													"        \"iban\": \"CZ1508000000003759647399\",\r",
+													"        \"bic\": \"GIBACZPX\"\r",
+													"    },\r",
+													"    \"sender\": {\r",
+													"        \"number\": \"5394825349\",\r",
+													"        \"bankCode\": \"0800\",\r",
+													"        \"countryCode\": \"CZ\",\r",
+													"        \"cz-iban\": \"CZ8708000000005394825349\",\r",
+													"        \"cz-bic\": \"GIBACZPX\"\r",
+													"    },\r",
+													"    \"senderName\": \"Jmeníčko odesilatele\",\r",
+													"    \"receiverName\": \"Jmeníčko příjemce\",\r",
+													"    \"amount\": {\r",
+													"        \"value\": 1100,\r",
+													"        \"currency\": \"CZK\",\r",
+													"        \"precision\": 2\r",
+													"    },\r",
+													"    \"flags\": [\r",
+													"        \"transferDateWhenSigningDone\"\r",
+													"    ],\r",
+													"    \"additionalInfo\": {\r",
+													"        \"text4x35\": [\r",
+													"            \"políčka na první text\",\r",
+													"            \"políčka na druhý text\",\r",
+													"            \"políčka na třetí text\",\r",
+													"            \"políčka na čtvrtý text\"\r",
+													"        ]\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"\r",
+													"const createdPayment = {\r",
+													"    url: pm.variables.replaceIn(`{{paymentsUrl}}/my/orders/payments/domestic`),\r",
+													"    method: 'POST',\r",
+													"    header: {\r",
+													"        'content-type': 'application/json',\r",
+													"        'web-api-key': pm.variables.replaceIn('{{g4bWebApiKey}}'),\r",
+													"        'Authorization': pm.variables.replaceIn('Bearer {{MartinBoyanovMartinovToken}}')\r",
+													"    },\r",
+													"        body: {\r",
+													"        mode: 'raw',\r",
+													"        raw: body\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(createdPayment, (error, response) => {\r",
+													"    if (error) {\r",
+													"        console.log(error);\r",
+													"    } else {\r",
+													"        const jsonData = response.json();\r",
+													"        try {\r",
+													"            const id = jsonData.id;\r",
+													"            pm.variables.set('id', id);\r",
+													"            const signId = jsonData.signInfo.signId;\r",
+													"            pm.variables.set('signId', signId);\r",
+													"        } catch (err) {\r",
+													"            console.log(err);\r",
+													"        }\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response contains correct values', () => {\r",
+													"    pm.expect(response.signInfo).to.be.an('object');\r",
+													"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+													"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+													"    //a další\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{paymentsUrl}}/my/orders/payments/{{id}}/sign/{{signId}}",
+											"host": [
+												"{{paymentsUrl}}"
+											],
+											"path": [
+												"my",
+												"orders",
+												"payments",
+												"{{id}}",
+												"sign",
+												"{{signId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "GET /my/orders/payments",
+									"item": [
+										{
+											"name": "positive",
+											"item": [
+												{
+													"name": "list",
+													"event": [
+														{
+															"listen": "prerequest",
+															"script": {
+																"exec": [
+																	"pm.request.headers.remove('Authorization');\r",
+																	"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{MartinBoyanovMartinovToken}}' });\r",
+																	""
+																],
+																"type": "text/javascript"
+															}
+														}
+													],
+													"request": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments",
+															"protocol": "https",
+															"host": [
+																"webapi-webapgforb-int",
+																"nocp",
+																"vs",
+																"csin",
+																"cz"
+															],
+															"path": [
+																"webapi",
+																"api",
+																"v1",
+																"g4b",
+																"my",
+																"orders",
+																"payments"
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "negative",
+											"item": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Special tests",
+							"item": [
+								{
+									"name": "amount 9999999999,99 - mělo by projít",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+													"\r",
+													"\r",
+													"/*\r",
+													"Tereza Pražáková - rozdíl plateb mezi B24 a G4B : rozmezí plateb: nově se částka sníži na hodnotu z B24.   na 0,01 až 9999999999,99.\r",
+													"George má ted  0.01, až 10 000000000 \r",
+													"->  Udělat test do Postmana - domácí platba, post.   Test dám 10miliard a nemělo by to projít. \r",
+													"Co psal Libor o 999miliardích je omezení na BE-CBL,  ale B24/G4B má a bude mít omezení na těch necelách 10 miliard.\r",
+													"\r",
+													"*/"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response contains correct values', () => {\r",
+													"    pm.expect(response.signInfo).to.be.an('object');\r",
+													"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+													"    pm.expect(response.state).to.eql('OPEN');\r",
+													"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+													"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+													"    //a další\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"receiver\": {\r\n        \"number\": \"3759647399\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"amount\": {\r\n        \"value\": 9999999999.99,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+											"host": [
+												"{{paymentsUrl}}"
+											],
+											"path": [
+												"my",
+												"orders",
+												"payments",
+												"domestic"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "amount 10000000000 - NEmělo by projít Copy",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{martinBoyanovMartinovToken}}' });\r",
+													"\r",
+													"/*\r",
+													"Tereza Pražáková - rozdíl plateb mezi B24 a G4B : rozmezí plateb: nově se částka sníži na hodnotu z B24.   na 0,01 až 9999999999,99.\r",
+													"George má ted  0.01, až 10 000000000 \r",
+													"->  Udělat test do Postmana - domácí platba, post.   Test dám 10miliard a nemělo by to projít. \r",
+													"Co psal Libor o 999miliardích je omezení na BE-CBL,  ale B24/G4B má a bude mít omezení na těch necelách 10 miliard.\r",
+													"\r",
+													"\r",
+													"*/"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response contains correct values', () => {\r",
+													"    pm.expect(response.signInfo).to.be.an('object');\r",
+													"    pm.expect(response.signInfo.state).to.eql('OPEN');\r",
+													"    pm.expect(response.state).to.eql('OPEN');\r",
+													"    pm.expect(response.stateDetail).to.eql('OPN');\r",
+													"    pm.expect(response.signInfo.signId).to.be.a('string');\r",
+													"    //a další\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"//ToDo test na List of Payments - na kontrolu, že se konkrétní platba vrátí v \"listu\""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"senderName\": \"Jmeníčko odesilatele\",\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"receiverName\": \"Jmeníčko příjemce\",\r\n    \"receiver\": {\r\n        \"number\": \"3759647399\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"amount\": {\r\n        \"value\": 10000000000,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{paymentsUrl}}/my/orders/payments/domestic",
+											"host": [
+												"{{paymentsUrl}}"
+											],
+											"path": [
+												"my",
+												"orders",
+												"payments",
+												"domestic"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "G4B token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var body = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.environment.set(\"token\", body.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://uat1-webapi-mila.vs.csin.cz/webapi/api/v1/mep/fs/test/testtokensvc?expires_in=3600000&web-api-key=2b06b7f4-f166-4755-b973-4e57ae9a6f94&client_id=george_for_business&scenario_key=s_authz_cm&cluid=1998-05-06-20.02.02.197514",
+					"protocol": "https",
+					"host": [
+						"uat1-webapi-mila",
+						"vs",
+						"csin",
+						"cz"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"mep",
+						"fs",
+						"test",
+						"testtokensvc"
+					],
+					"query": [
+						{
+							"key": "expires_in",
+							"value": "3600000"
+						},
+						{
+							"key": "web-api-key",
+							"value": "2b06b7f4-f166-4755-b973-4e57ae9a6f94"
+						},
+						{
+							"key": "client_id",
+							"value": "george_for_business"
+						},
+						{
+							"key": "scenario_key",
+							"value": "s_authz_cm"
+						},
+						{
+							"key": "cluid",
+							"value": "1998-05-06-20.02.02.197514"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list payments",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					},
+					{
+						"key": "web-api-key",
+						"value": "{{web-api-key}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments",
+					"protocol": "https",
+					"host": [
+						"webapi-webapgforb-int",
+						"nocp",
+						"vs",
+						"csin",
+						"cz"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"g4b",
+						"my",
+						"orders",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create payment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var body = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.collectionVariables.set(\"signId\", body.id);\r",
+							"pm.collectionVariables.set(\"hash\", body.signInfo.signId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					},
+					{
+						"key": "web-api-key",
+						"value": "{{web-api-key}}",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"iban\": \"CZ1508000000003759647399\",\r\n        \"bic\": \"GIBACZPX\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\",\r\n        \"countryCode\": \"CZ\",\r\n        \"cz-iban\": \"CZ8708000000005394825349\",\r\n        \"cz-bic\": \"GIBACZPX\"\r\n    },\r\n    \"senderName\": \"Banán Sčokoladou\",\r\n    \"receiverName\": \"Horký Maliny\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"test Robik\"\r\n        ]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments/domestic",
+					"protocol": "https",
+					"host": [
+						"webapi-webapgforb-int",
+						"nocp",
+						"vs",
+						"csin",
+						"cz"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"g4b",
+						"my",
+						"orders",
+						"payments",
+						"domestic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change payment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var body = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.collectionVariables.set(\"signId\", body.id);\r",
+							"pm.collectionVariables.set(\"hash\", body.signInfo.signId);\r",
+							"\r",
+							"eval(pm.collectionVariables.get(\"georgeManageableAuthorizace\"))(body.id, body.signInfo.signId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					},
+					{
+						"key": "web-api-key",
+						"value": "{{web-api-key}}",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderCategory\": \"DOMESTIC\",\r\n    \"id\": \"{{signId}}\",\r\n    \"orderType\": \"PAYMENT_OUT\",\r\n    \"receiver\": {\r\n        \"number\": \"1977825369\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"sender\": {\r\n        \"number\": \"5394825349\",\r\n        \"bankCode\": \"0800\"\r\n    },\r\n    \"senderName\": \"Banán Sčokoladou\",\r\n    \"receiverName\": \"Horký Maliny\",\r\n    \"amount\": {\r\n        \"value\": 1100,\r\n        \"currency\": \"CZK\",\r\n        \"precision\": 2\r\n    },\r\n    \"flags\": [\r\n        \"transferDateWhenSigningDone\"\r\n    ],\r\n    \"additionalInfo\": {\r\n        \"text4x35\": [\r\n            \"G4B platba\"\r\n        ]\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments/domestic/{{signId}}",
+					"protocol": "https",
+					"host": [
+						"webapi-webapgforb-int",
+						"nocp",
+						"vs",
+						"csin",
+						"cz"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"g4b",
+						"my",
+						"orders",
+						"payments",
+						"domestic",
+						"{{signId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var body = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.collectionVariables.set(\"authType\", body.authorizationType);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					},
+					{
+						"key": "web-api-key",
+						"value": "{{web-api-key}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments/{{signId}}/sign/{{hash}}",
+					"protocol": "https",
+					"host": [
+						"webapi-webapgforb-int",
+						"nocp",
+						"vs",
+						"csin",
+						"cz"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"g4b",
+						"my",
+						"orders",
+						"payments",
+						"{{signId}}",
+						"sign",
+						"{{hash}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					},
+					{
+						"key": "web-api-key",
+						"value": "{{web-api-key}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"authorizationType\": \"{{authType}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments/{{signId}}/sign/{{hash}}",
+					"protocol": "https",
+					"host": [
+						"webapi-webapgforb-int",
+						"nocp",
+						"vs",
+						"csin",
+						"cz"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"g4b",
+						"my",
+						"orders",
+						"payments",
+						"{{signId}}",
+						"sign",
+						"{{hash}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					},
+					{
+						"key": "web-api-key",
+						"value": "{{web-api-key}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"authorizationType\": \"{{authType}}\",\r\n  \"oneTimePassword\": \"00000000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://webapi-webapgforb-int.nocp.vs.csin.cz/webapi/api/v1/g4b/my/orders/payments/{{signId}}/sign/{{hash}}",
+					"protocol": "https",
+					"host": [
+						"webapi-webapgforb-int",
+						"nocp",
+						"vs",
+						"csin",
+						"cz"
+					],
+					"path": [
+						"webapi",
+						"api",
+						"v1",
+						"g4b",
+						"my",
+						"orders",
+						"payments",
+						"{{signId}}",
+						"sign",
+						"{{hash}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var moment = require('moment');",
+					"var transactionId = moment().format(\"YYMMDD\") + _.padLeft(_.random(0, 999999999), 9, '0');",
+					"pm.collectionVariables.set(\"current-transaction-id\", transactionId);",
+					"console.log(\"transactionId: \" + transactionId);",
+					"",
+					"var transactionId = () => {",
+					"    var moment = require('moment');",
+					"    var transactionId = moment().format(\"YYMMDD\") + _.padLeft(_.random(0, 999999999), 9, '0');",
+					"    console.log(\"transactionId: \" + transactionId);",
+					"    return transactionId;",
+					"}",
+					"pm.collectionVariables.set(\"transactionId\", transactionId.toString());",
+					"",
+					"var equals = (atribute, compareAttribute, description, boolean) => {",
+					"    if (boolean === true) {",
+					"        pm.test('checking required equals attribute: ' + description + ' = ' + atribute, function () {",
+					"            pm.expect(atribute).equal(compareAttribute, 'error atribute is: ' + description + ', ' + ' transactionId: ' + pm.collectionVariables.get('current-transaction-id'));",
+					"        })",
+					"    } else if (boolean === false) {",
+					"        pm.test('checking optional equals attribute: ' + description + ' = ' + atribute, function () {",
+					"            if (atribute !== undefined) {",
+					"                pm.expect(atribute).equal(compareAttribute, 'error atribute is: ' + description + ', ' + ' transactionId: ' + pm.collectionVariables.get('current-transaction-id'));",
+					"            }",
+					"        })",
+					"    } else {",
+					"        assert.notOk(true, 'type of boolean is wrong');",
+					"    }",
+					"}",
+					"pm.collectionVariables.set(\"equals\", equals.toString());",
+					"",
+					"var checkAttributes = (atribute, description, typ, boolean) => {",
+					"    if(boolean === true) {",
+					"        pm.test('checking required attribute: ' + description + ' = ' + atribute, function() {",
+					"            pm.expect(atribute).to.be.a(typ, 'error atribute is: ' + description + ', ' + ' transactionId: ' + pm.collectionVariables.get('current-transaction-id'));",
+					"        })",
+					"    } else if(boolean === false) {",
+					"        pm.test('checking optional attribute: ' + description + ' = ' + atribute, function() {",
+					"            if(atribute !== undefined) {",
+					"                pm.expect(atribute).to.be.a(typ, 'error atribute is: ' + description + ', ' + ' transactionId: ' + pm.collectionVariables.get('current-transaction-id'));",
+					"            }",
+					"        })",
+					"    } else {",
+					"        assert.notOk(true, 'type of boolean is wrong');",
+					"    }",
+					"}",
+					"",
+					"pm.collectionVariables.set(\"checkAttributes\", checkAttributes.toString());",
+					"",
+					"var georgeManageableAuthorizace = (signId, hash) => {",
+					"    var environment = pm.environment.get('URL-auths');",
+					"    ",
+					"    pm.sendRequest({",
+					"        url: environment + '/v1/authorization/client/manageable/' + signId + '/sign/' + hash,",
+					"        method: 'GET',",
+					"        header: {",
+					"            \"origin-application-system\": pm.environment.get('origin-application-system'),",
+					"            \"application-system\": pm.environment.get('application-system'),",
+					"            \"origin-ip-address\": pm.environment.get('origin-ip-address'),",
+					"            \"access-token\": pm.environment.get('access-token'),",
+					"            \"accept-language\": \"en\",",
+					"            \"origin-transaction-id\": eval(pm.collectionVariables.get(\"transactionId\"))(),",
+					"            \"cluid\": pm.iterationData.get('cluid') == null ? pm.environment.get('cluid') : pm.iterationData.get('cluid')",
+					"        }",
+					"    },",
+					"    function (err, res) {",
+					"        pm.test('response GET sign should be okay to process', () => {",
+					"                pm.expect(err).to.equal(null);",
+					"                pm.expect(res).to.have.property('code', 200);",
+					"                pm.expect(res).to.have.property('status', 'OK');",
+					"            });",
+					"",
+					"        var body = res.json();",
+					"",
+					"        if(res.code == 200) {",
+					"            eval(pm.collectionVariables.get(\"checkAttributes\"))(body.authorizationType, 'authorizationType', 'string', true);",
+					"            eval(pm.collectionVariables.get(\"checkAttributes\"))(body.scenarios, 'scenarios', 'array', true);",
+					"            eval(pm.collectionVariables.get(\"checkAttributes\"))(body.signInfo, 'signInfo', 'object', true);",
+					"            if(body.signInfo !== undefined) {",
+					"                eval(pm.collectionVariables.get(\"checkAttributes\"))(body.signInfo.state, 'signInfo.state', 'string', true);",
+					"                eval(pm.collectionVariables.get(\"checkAttributes\"))(body.signInfo.signId, 'signInfo.signId', 'string', true);",
+					"            }",
+					"            pm.collectionVariables.set(\"authType\", body.authorizationType);",
+					"        }",
+					"        console.log(err ? err.json() : res.json());",
+					"",
+					"        pm.sendRequest({",
+					"            url: environment + '/v1/authorization/client/manageable/' + signId + '/sign/' + hash,",
+					"            method: 'POST',",
+					"            header: {",
+					"                \"origin-application-system\": pm.environment.get('origin-application-system'),",
+					"                \"application-system\": pm.environment.get('application-system'),",
+					"                \"origin-ip-address\": pm.environment.get('origin-ip-address'),",
+					"                \"access-token\": pm.environment.get('access-token'),",
+					"                \"accept-language\": \"en\",",
+					"                \"origin-transaction-id\": eval(pm.collectionVariables.get(\"transactionId\"))(),",
+					"                \"cluid\": pm.iterationData.get('cluid') == null ? pm.environment.get('cluid') : pm.iterationData.get('cluid'),",
+					"                \"Content-Type\": \"application/json\"",
+					"            },",
+					"            body: {",
+					"                mode: 'raw',",
+					"                raw: JSON.stringify({\"authorizationType\": pm.collectionVariables.get('authType')})",
+					"            }",
+					"        },",
+					"        function (err, res) {",
+					"            pm.test('response POST sign should be okay to process', () => {",
+					"                pm.expect(err).to.equal(null);",
+					"                pm.expect(res).to.have.property('code', 200);",
+					"                pm.expect(res).to.have.property('status', 'OK');",
+					"            });",
+					"",
+					"            var body = res.json();",
+					"        ",
+					"            if(res.code == 200) {",
+					"                eval(pm.collectionVariables.get(\"checkAttributes\"))(body.authorizationType, 'authorizationType', 'string', true);",
+					"                eval(pm.collectionVariables.get(\"checkAttributes\"))(body.signInfo, 'signInfo', 'object', true);",
+					"                if(body.signInfo !== undefined) {",
+					"                    eval(pm.collectionVariables.get(\"checkAttributes\"))(body.signInfo.state, 'signInfo.state', 'string', true);",
+					"                    eval(pm.collectionVariables.get(\"checkAttributes\"))(body.signInfo.signId, 'signInfo.signId', 'string', true);",
+					"                }",
+					"            }",
+					"            console.log(err ? err.json() : res.json());",
+					"",
+					"            pm.sendRequest({",
+					"                url: environment + '/v1/authorization/client/manageable/' + signId + '/sign/' + hash,",
+					"                method: 'PUT',",
+					"                 header: {",
+					"                    \"origin-application-system\": pm.environment.get('origin-application-system'),",
+					"                    \"application-system\": pm.environment.get('application-system'),",
+					"                    \"origin-ip-address\": pm.environment.get('origin-ip-address'),",
+					"                    \"access-token\": pm.environment.get('access-token'),",
+					"                    \"accept-language\": \"en\",",
+					"                    \"origin-transaction-id\": eval(pm.collectionVariables.get(\"transactionId\"))(),",
+					"                    \"cluid\": pm.iterationData.get('cluid') == null ? pm.environment.get('cluid') : pm.iterationData.get('cluid'),",
+					"                    \"Content-Type\": \"application/json\"",
+					"                }, ",
+					"                body: {",
+					"                    mode: 'raw',",
+					"                    raw: JSON.stringify({\"authorizationType\": pm.collectionVariables.get('authType'), \"oneTimePassword\": \"000000\"})",
+					"                }",
+					"            },",
+					"            function (err, res)  {",
+					"                pm.test('response PUT sign should be okay to process', () => {",
+					"                    pm.expect(err).to.equal(null);",
+					"                    pm.expect(res).to.have.property('code', 200);",
+					"                    pm.expect(res).to.have.property('status', 'OK');",
+					"                });",
+					"",
+					"                var body = res.json();",
+					"",
+					"                if(res.code == 200) {",
+					"                    eval(pm.collectionVariables.get(\"checkAttributes\"))(body.signInfo.state, 'signInfo.state', 'string', true);",
+					"                    eval(pm.collectionVariables.get(\"equals\"))(body.signInfo.state, 'DONE', 'signInfo.state', true);",
+					"                    eval(pm.collectionVariables.get(\"checkAttributes\"))(body.signInfo.signId, 'signInfo.signId', 'string', true);",
+					"                }",
+					"                setTimeout(function(){}, [10000]);",
+					"                console.log(err ? err.json() : res.json());",
+					"            });",
+					"        });",
+					"    });",
+					"}",
+					"pm.collectionVariables.set(\"georgeManageableAuthorizace\", georgeManageableAuthorizace.toString());"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "signId",
+			"value": ""
+		},
+		{
+			"key": "hash",
+			"value": ""
+		},
+		{
+			"key": "authType",
+			"value": ""
+		},
+		{
+			"key": "georgeManageableAuthorizace",
+			"value": ""
+		},
+		{
+			"key": "checkAttributes",
+			"value": ""
+		},
+		{
+			"key": "equals",
+			"value": ""
+		},
+		{
+			"key": "current-transaction-id",
+			"value": ""
+		},
+		{
+			"key": "transactionId",
+			"value": ""
+		}
+	]
+}

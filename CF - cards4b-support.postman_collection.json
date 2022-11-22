@@ -1,0 +1,1454 @@
+{
+	"info": {
+		"_postman_id": "501bf731-2644-42a9-a55d-d40df2ff4b74",
+		"name": "CF - cards4b-support",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23141207"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const clients = ['zdenekKonecny','alesPokorny', 'marcelaAdamcova', 'antoninValenta', 'davidKarol', 'alexanderOravec', 'lenkaHajkova', 'lucieJiroudkova', 'pavelKrepelka', 'hanaFodorova', 'michalPribyl', 'olgaHorakova', 'zuzanaMasatova', 'tomasHerden', 'kristynaRousova', 'michaelaVikova', 'petrSpacek', 'ivanaPetrovicova', 'miroslavKupcik', 'janSuk','jiriOuborny', 'romanProchazka', 'petrBresky', 'marcelaNovotna']\r",
+									"\r",
+									"const auth = (cluid) => {\r",
+									"    const auth = {\r",
+									"        url: pm.variables.replaceIn(`{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_for_business&cluid={{${cluid}}}&expires_in=28800&scenario_key=s_authn_sca_pwd_sms`),\r",
+									"        method: 'GET'\r",
+									"    };\r",
+									"\r",
+									"    pm.sendRequest(auth, (error, response) => {\r",
+									"        if (error) {\r",
+									"            console.log(error);\r",
+									"        } else {\r",
+									"            const jsonData = response.json();\r",
+									"            pm.collectionVariables.set(`${cluid}Token`, jsonData.access_token);\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"clients.forEach(cluid => auth(cluid))\r",
+									"\r",
+									"const authInvalidAudience = (cluid) => {\r",
+									"    const auth = {\r",
+									"        url: pm.variables.replaceIn(`{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_ticketing_client&cluid=${cluid}&expires_in=28800&scenario_key=s_authn_sca_pwd_sms`),\r",
+									"        method: 'GET'\r",
+									"    };\r",
+									"\r",
+									"    pm.sendRequest(auth, (error, response) => {\r",
+									"        if (error) {\r",
+									"            console.log(error);\r",
+									"        } else {\r",
+									"            const jsonData = response.json();\r",
+									"            pm.collectionVariables.set(`InvalidAudienceToken`, jsonData.access_token);\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"authInvalidAudience('1997-04-10-22.11.11.258187')\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_for_business&cluid={{lenkaHajkova}}&expires_in=3600&scenario_key=s_authn_sca_pwd_sms",
+							"host": [
+								"{{mepTokenUrl}}"
+							],
+							"query": [
+								{
+									"key": "web-api-key",
+									"value": "{{mepTokenWebApiKey}}"
+								},
+								{
+									"key": "client_id",
+									"value": "george_for_business"
+								},
+								{
+									"key": "cluid",
+									"value": "{{lenkaHajkova}}"
+								},
+								{
+									"key": "expires_in",
+									"value": "3600"
+								},
+								{
+									"key": "scenario_key",
+									"value": "s_authn_sca_pwd_sms"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//Error tests",
+							"const keyMissingTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains status and errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: KEY_MISSING', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('KEY_MISSING');",
+							"    });",
+							"};",
+							"",
+							"const tokenMissingTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains status and errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Bearer error=\"token_missing\"', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"token_missing\"');",
+							"    });",
+							"};",
+							"",
+							"const tokenInvalidTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Bearer error=\"invalid_token', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\"');",
+							"    });",
+							"};",
+							"",
+							"const tokenInvalidAudienceTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains errors array', () => {",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Audience error=\"invalid_audience\"', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Audience error=\"invalid_audience\"');",
+							"    });",
+							"};",
+							"",
+							"pm.collectionVariables.set('keyMissingTests', keyMissingTests.toString());",
+							"pm.collectionVariables.set('tokenMissingTests', tokenMissingTests.toString());",
+							"pm.collectionVariables.set('tokenInvalidTests', tokenInvalidTests.toString());",
+							"pm.collectionVariables.set('tokenInvalidAudienceTests', tokenInvalidAudienceTests.toString());",
+							"pm.collectionVariables.set('invalidToken', '3/7nz8H096eb8Gf014OD85brFae1OpIBoGnMbDmwGhO8PYAzTtaoiN864QCnbRbxXm');",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "GET /my/cards",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "params",
+							"item": [
+								{
+									"name": "without params",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{petrSpacekToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response contains correct values', () => {\r",
+													"    pm.expect(response.pageNumber).to.eql(0);\r",
+													"    pm.expect(response.pageCount).to.eql(1);\r",
+													"    pm.expect(response.pageSize).to.eql(8);\r",
+													"    pm.expect(response.pageSize).to.eql(response.cards.length);\r",
+													"    pm.expect(response).to.not.have.property('nextPage');\r",
+													"    pm.expect(response.cards[0].id).to.eql('E3483328CA739FE033BE654A21FD24DA9AB4BA11');\r",
+													"    pm.expect(response.cards[0].owner).to.eql('LARS HENN');\r",
+													"    pm.expect(response.cards[0].number).to.eql('490729XXXXXX7791');\r",
+													"    pm.expect(response.cards[0].sequenceNumber).to.eql('1');\r",
+													"    pm.expect(response.cards[0].productI18N).to.eql('Visa Vkladová');\r",
+													"    pm.expect(response.cards[0].expiryDate).to.eql('2024-02-29');\r",
+													"    pm.expect(response.cards[0].validFromDate).to.eql('2021-02-01');\r",
+													"    pm.expect(response.cards[0].state).to.eql('INACTIVE');\r",
+													"    pm.expect(response.cards[0].type).to.eql('BANK_CARD');\r",
+													"    pm.expect(response.cards[0].provider).to.eql('ERSTE_BANK');\r",
+													"    pm.expect(response.cards[0].brand).to.eql('VISA');\r",
+													"    pm.expect(response.cards[0].cardDeliveryMode).to.eql('HOME');\r",
+													"    pm.expect(response.cards[0].imageData.imageKey).to.eql('506');\r",
+													"    pm.expect(response.cards[0].imageData.imageUrl).to.eql('https://george.csast.csas.cz/static_grg/cs/CARD_IMG/STAND_CARD_IMG/Prilohy/506_image.png');\r",
+													"    pm.expect(response.cards[0].characteristic).to.eql('AUTHORIZED');\r",
+													"    pm.expect(response.cards[0].mainAccount.id).to.eql('852DF13B8C402B24297D720D48FE713CBF119441');\r",
+													"    pm.expect(response.cards[0].mainAccount.holderName).to.eql('ŠATY GO HOME s.r.o.');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno.number).to.eql('3409239379');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno.bankCode).to.eql('0800');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno.countryCode).to.eql('CZ');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno['cz-iban']).to.eql('CZ1408000000003409239379');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno['cz-bic']).to.eql('GIBACZPX');\r",
+													"    pm.expect(response.cards[0].features).to.include.members(['cardDelivery', 'cancelCard', 'displaySecuredInfo', 'temporaryLimitChange', 'automaticReplacement', 'contactless', 'limitChange']);\r",
+													"    pm.expect(response.cards[0].flags).to.include.members(['activationAllowed', 'generate3dSecureCodeAllowed', 'automaticReplacementChangeNotAllowed', 'displayPinAllowed', 'cardDeliveryChangeNotAllowed', 'automaticReplacementEnabled', 'contactlessEnabled']);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "without params Copy",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: 'Bearer 3/2kp53mPo6vladxWEKeLLluH1YbR6pdUd3b0RANbQWFUqgYc14ZiixYlQOryRoqIA' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test('Status code is 200', () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response contains correct values', () => {\r",
+													"    pm.expect(response.pageNumber).to.eql(0);\r",
+													"    pm.expect(response.pageCount).to.eql(1);\r",
+													"    pm.expect(response.pageSize).to.eql(8);\r",
+													"    pm.expect(response.pageSize).to.eql(response.cards.length);\r",
+													"    pm.expect(response).to.not.have.property('nextPage');\r",
+													"    pm.expect(response.cards[0].id).to.eql('E3483328CA739FE033BE654A21FD24DA9AB4BA11');\r",
+													"    pm.expect(response.cards[0].owner).to.eql('LARS HENN');\r",
+													"    pm.expect(response.cards[0].number).to.eql('490729XXXXXX7791');\r",
+													"    pm.expect(response.cards[0].sequenceNumber).to.eql('1');\r",
+													"    pm.expect(response.cards[0].productI18N).to.eql('Visa Vkladová');\r",
+													"    pm.expect(response.cards[0].expiryDate).to.eql('2024-02-29');\r",
+													"    pm.expect(response.cards[0].validFromDate).to.eql('2021-02-01');\r",
+													"    pm.expect(response.cards[0].state).to.eql('INACTIVE');\r",
+													"    pm.expect(response.cards[0].type).to.eql('BANK_CARD');\r",
+													"    pm.expect(response.cards[0].provider).to.eql('ERSTE_BANK');\r",
+													"    pm.expect(response.cards[0].brand).to.eql('VISA');\r",
+													"    pm.expect(response.cards[0].cardDeliveryMode).to.eql('HOME');\r",
+													"    pm.expect(response.cards[0].imageData.imageKey).to.eql('506');\r",
+													"    pm.expect(response.cards[0].imageData.imageUrl).to.eql('https://george.csast.csas.cz/static_grg/cs/CARD_IMG/STAND_CARD_IMG/Prilohy/506_image.png');\r",
+													"    pm.expect(response.cards[0].characteristic).to.eql('AUTHORIZED');\r",
+													"    pm.expect(response.cards[0].mainAccount.id).to.eql('852DF13B8C402B24297D720D48FE713CBF119441');\r",
+													"    pm.expect(response.cards[0].mainAccount.holderName).to.eql('ŠATY GO HOME s.r.o.');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno.number).to.eql('3409239379');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno.bankCode).to.eql('0800');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno.countryCode).to.eql('CZ');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno['cz-iban']).to.eql('CZ1408000000003409239379');\r",
+													"    pm.expect(response.cards[0].mainAccount.accountno['cz-bic']).to.eql('GIBACZPX');\r",
+													"    pm.expect(response.cards[0].features).to.include.members(['cardDelivery', 'cancelCard', 'displaySecuredInfo', 'temporaryLimitChange', 'automaticReplacement', 'contactless', 'limitChange']);\r",
+													"    pm.expect(response.cards[0].flags).to.include.members(['activationAllowed', 'generate3dSecureCodeAllowed', 'automaticReplacementChangeNotAllowed', 'displayPinAllowed', 'cardDeliveryChangeNotAllowed', 'automaticReplacementEnabled', 'contactlessEnabled']);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "with size",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{petrSpacekToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const size = Number(pm.request.url.query.get('size'));\r",
+													"\r",
+													"pm.test('Status code is 200', () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response contains correct values', () => {\r",
+													"    pm.expect(response.pageNumber).to.eql(0);\r",
+													"    pm.expect(response.pageCount).to.eql(4);\r",
+													"    pm.expect(response.nextPage).to.eql(1);\r",
+													"    pm.expect(response.pageSize).to.eql(size);\r",
+													"    pm.expect(response.cards.length).to.eql(size);\r",
+													"    pm.expect(response.cards).not.to.be.empty;\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards?size=2",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards"
+											],
+											"query": [
+												{
+													"key": "size",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "with size, page",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{petrSpacekToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const size = Number(pm.request.url.query.get('size'));\r",
+													"let page = Number(pm.request.url.query.get('page'));\r",
+													"\r",
+													"pm.test('Status code is 200', () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test('Response contains correct values', () => {\r",
+													"    pm.expect(response.pageNumber).to.eql(page);\r",
+													"    pm.expect(response.pageCount).to.be.eql(8);\r",
+													"    pm.expect(response.pageSize).to.eql(size);\r",
+													"    pm.expect(response.nextPage).to.eql(++page);\r",
+													"    pm.expect(response.cards.length).to.eql(size);\r",
+													"    pm.expect(response.cards).not.to.be.empty;\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards?size=1&page=3",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards"
+											],
+											"query": [
+												{
+													"key": "size",
+													"value": "1"
+												},
+												{
+													"key": "page",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "401 subscription key missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Ocp-Apim-Subscription-Key');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('keyMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{invalidToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GET /my/cards/{id}",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "BANKCARD-Payment card",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const getCards = {\r",
+											"    url: pm.variables.replaceIn('{{g4bUrl}}/my/cards'),\r",
+											"    method: 'GET',\r",
+											"    header: {\r",
+											"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+											"        'Authorization': pm.variables.replaceIn('Bearer {{petrSpacekToken}}')\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(getCards, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        const jsonData = response.json();\r",
+											"        try {\r",
+											"            const cardsObj = jsonData.cards[0];\r",
+											"            pm.variables.set('cardsObj', cardsObj);\r",
+											"            pm.variables.set('id', cardsObj.id);\r",
+											"        } catch (err) {\r",
+											"            console.log(err);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{petrSpacekToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains cards object', () => {\r",
+											"    pm.expect(response).to.eql(pm.variables.get('cardsObj'));\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.id).to.eql('E3483328CA739FE033BE654A21FD24DA9AB4BA11');\r",
+											"    pm.expect(response.owner).to.eql('LARS HENN');\r",
+											"    pm.expect(response.number).to.eql('490729XXXXXX7791');\r",
+											"    pm.expect(response.productI18N).to.eql('Visa Vkladová');\r",
+											"    pm.expect(response.expiryDate).to.eql('2024-02-29');\r",
+											"    pm.expect(response.type).to.eql('BANK_CARD');\r",
+											"    pm.expect(response.provider).to.eql('ERSTE_BANK');\r",
+											"    pm.expect(response.brand).to.eql('VISA');\r",
+											"    pm.expect(response.characteristic).to.eql('AUTHORIZED');\r",
+											"    pm.expect(response.mainAccount.id).to.eql('852DF13B8C402B24297D720D48FE713CBF119441');\r",
+											"    pm.expect(response.mainAccount.holderName).to.eql('ŠATY GO HOME s.r.o.');\r",
+											"    pm.expect(response.mainAccount.accountno.number).to.eql('3409239379');\r",
+											"    pm.expect(response.mainAccount.accountno.bankCode).to.eql('0800');\r",
+											"    pm.expect(response.mainAccount.accountno.countryCode).to.eql('CZ');\r",
+											"    pm.expect(response.mainAccount.accountno['cz-iban']).to.eql('CZ1408000000003409239379');\r",
+											"    pm.expect(response.mainAccount.accountno['cz-bic']).to.eql('GIBACZPX');\r",
+											"    pm.expect(response.features).to.have.lengthOf(7);\r",
+											"    pm.expect(response.features).to.include.members(['cardDelivery', 'cancelCard', 'displaySecuredInfo', 'temporaryLimitChange', 'automaticReplacement', 'contactless', 'limitChange']);\r",
+											"    pm.expect(response.flags).to.have.lengthOf(7);\r",
+											"    pm.expect(response.flags).to.include.members(['activationAllowed', 'generate3dSecureCodeAllowed', 'automaticReplacementChangeNotAllowed', 'displayPinAllowed','cardDeliveryChangeNotAllowed', 'automaticReplacementEnabled', 'contactlessEnabled']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/cards/{{id}}",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"cards",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CREDIT-MC Business",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const getCards = {\r",
+											"    url: pm.variables.replaceIn('{{g4bUrl}}/my/cards'),\r",
+											"    method: 'GET',\r",
+											"    header: {\r",
+											"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+											"        'Authorization': pm.variables.replaceIn('Bearer {{janSukToken}}')\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(getCards, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        const jsonData = response.json();\r",
+											"        try {\r",
+											"            const cardsObj = jsonData.cards[13];\r",
+											"            //Jak udělám? :Ulož z response konkrétně ten array, který má v sobě hodnotu v parametru id = např 5.\r",
+											"            //pm.expect(response.cardsObj).to.eql('D4B7C27EB4B0765EF4940E34733AE697840CD896');\r",
+											"            //pm.variables.set('id', 'D4B7C27EB4B0765EF4940E34733AE697840CD896');\r",
+											"            pm.variables.set('cardsObj', cardsObj);\r",
+											"            pm.variables.set('id', cardsObj.id);\r",
+											"        } catch (err) {\r",
+											"            console.log(err);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{janSukToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains cards object', () => {\r",
+											"    pm.expect(response).to.eql(pm.variables.get('cardsObj'));\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.id).to.eql('D4B7C27EB4B0765EF4940E34733AE697840CD896');\r",
+											"    pm.expect(response.owner).to.eql('JAN SUK');\r",
+											"    pm.expect(response.number).to.eql('556072XXXXXX8989');\r",
+											"    pm.expect(response.productI18N).to.eql('Kredit+ Mastercard Business');\r",
+											"    pm.expect(response.expiryDate).to.eql('2023-03-31');\r",
+											"    pm.expect(response.type).to.eql('CREDIT');\r",
+											"    pm.expect(response.provider).to.eql('ERSTE_BANK');\r",
+											"    pm.expect(response.brand).to.eql('MASTERCARD');\r",
+											"    pm.expect(response.characteristic).to.eql('MAIN');\r",
+											"    pm.expect(response.mainAccount.id).to.eql('CB0C4E798694EA35CCF40D853E08FEE713A11A86');\r",
+											"    pm.expect(response.mainAccount.holderName).to.eql('V.J.Rott s.r.o.');\r",
+											"    pm.expect(response.mainAccount.accountno.number).to.eql('145226-2009821234');\r",
+											"    pm.expect(response.mainAccount.accountno.bankCode).to.eql('0800');\r",
+											"    pm.expect(response.mainAccount.accountno.countryCode).to.eql('CZ');\r",
+											"    pm.expect(response.mainAccount.accountno['cz-iban']).to.eql('CZ2808001452262009821234');\r",
+											"    pm.expect(response.mainAccount.accountno['cz-bic']).to.eql('GIBACZPX');\r",
+											"    pm.expect(response.features).to.have.lengthOf(10);\r",
+											"    pm.expect(response.features).to.include.members(['automaticReplacement', 'contactless', 'reissuePin', 'limitChange', 'replacementCard', 'displaySecuredInfo', 'onlineLocking', 'cancelCard', 'temporaryLimitChange', 'cardDelivery']);\r",
+											"    pm.expect(response.flags).to.have.lengthOf(4);\r",
+											"    pm.expect(response.flags).to.include.members(['contactlessEnabled', 'cardDeliveryChangeNotAllowed', 'generate3dSecureCodeAllowed', 'displayPinAllowed']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/cards/{{id}}",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"cards",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CREDIT-Charge card",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const getCards = {\r",
+											"    url: pm.variables.replaceIn('{{g4bUrl}}/my/cards'),\r",
+											"    method: 'GET',\r",
+											"    header: {\r",
+											"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+											"        'Authorization': pm.variables.replaceIn('Bearer {{jiriOubornyToken}}')\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(getCards, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        const jsonData = response.json();\r",
+											"        try {\r",
+											"            const cardsObj = jsonData.cards[106];\r",
+											"            pm.variables.set('cardsObj', cardsObj);\r",
+											"            pm.variables.set('id', cardsObj.id);\r",
+											"            //id = 61506C7CDB2F64469AAEB3D97B362EDF12A3CB2D\r",
+											"        } catch (err) {\r",
+											"            console.log(err);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{jiriOubornyToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains cards object', () => {\r",
+											"    pm.expect(response).to.eql(pm.variables.get('cardsObj'));\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.id).to.eql('61506C7CDB2F64469AAEB3D97B362EDF12A3CB2D');\r",
+											"    pm.expect(response.owner).to.eql('TEST VISA BUS SD9 27');\r",
+											"    pm.expect(response.number).to.eql('451160XXXXXX2592');\r",
+											"    pm.expect(response.productI18N).to.eql('Visa Business Charge - test');\r",
+											"    pm.expect(response.expiryDate).to.eql('2025-01-31');\r",
+											"    pm.expect(response.type).to.eql('CREDIT');\r",
+											"    pm.expect(response.provider).to.eql('ERSTE_BANK');\r",
+											"    pm.expect(response.brand).to.eql('VISA');\r",
+											"    pm.expect(response.characteristic).to.eql('AUTHORIZED');\r",
+											" \r",
+											"    pm.expect(response.features).to.have.lengthOf(10);\r",
+											"    pm.expect(response.features).to.include.members([        \r",
+											"        'automaticReplacement',\r",
+											"        'contactless',\r",
+											"        'reissuePin',\r",
+											"        'limitChange',\r",
+											"        'replacementCard',\r",
+											"        'displaySecuredInfo',\r",
+											"        'onlineLocking',\r",
+											"        'cancelCard',\r",
+											"        'temporaryLimitChange',\r",
+											"        'cardDelivery']);\r",
+											"    pm.expect(response.flags).to.have.lengthOf(6);\r",
+											"    pm.expect(response.flags).to.include.members([        'contactlessEnabled',\r",
+											"        'automaticReplacementEnabled',\r",
+											"        'cardDeliveryChangeNotAllowed',\r",
+											"        'generate3dSecureCodeAllowed',\r",
+											"        'displayPinAllowed',\r",
+											"        'automaticReplacementChangeNotAllowed']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/cards/{{id}}",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"cards",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PREPAID_CARD-Prepaid card",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const getCards = {\r",
+											"    url: pm.variables.replaceIn('{{g4bUrl}}/my/cards'),\r",
+											"    method: 'GET',\r",
+											"    header: {\r",
+											"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+											"        'Authorization': pm.variables.replaceIn('Bearer {{petrBreskyToken}}')\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(getCards, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        const jsonData = response.json();\r",
+											"        try {\r",
+											"            const cardsObj = jsonData.cards[0];\r",
+											"            pm.variables.set('cardsObj', cardsObj);\r",
+											"            pm.variables.set('id', cardsObj.id);\r",
+											"            //id = 8438E29C052C62615E3F0FCE1E00BEE6BAE15D79\r",
+											"        } catch (err) {\r",
+											"            console.log(err);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{petrBreskyToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains cards object', () => {\r",
+											"    pm.expect(response).to.eql(pm.variables.get('cardsObj'));\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.id).to.eql('8438E29C052C62615E3F0FCE1E00BEE6BAE15D79');\r",
+											"    pm.expect(response.owner).to.eql('PETR BŘESKÝ');\r",
+											"    pm.expect(response.number).to.eql('627665XXXXXX4419');\r",
+											"    pm.expect(response.productI18N).to.eql('Maestro předplacená služební');\r",
+											"    pm.expect(response.expiryDate).to.eql('2024-11-30');\r",
+											"    pm.expect(response.type).to.eql('BANK_CARD');\r",
+											"    pm.expect(response.provider).to.eql('ERSTE_BANK');\r",
+											"    pm.expect(response.brand).to.eql('MAESTRO');\r",
+											"    pm.expect(response.characteristic).to.eql('MAIN');\r",
+											" \r",
+											"    pm.expect(response.features).to.have.lengthOf(8);\r",
+											"    pm.expect(response.features).to.include.members([        \r",
+											"        'automaticReplacement',\r",
+											"        'contactless',\r",
+											"        'limitChange',\r",
+											"        'displaySecuredInfo',\r",
+											"        'onlineLocking',\r",
+											"        'cancelCard',\r",
+											"        'temporaryLimitChange',\r",
+											"        'cardDelivery']);\r",
+											"    pm.expect(response.flags).to.have.lengthOf(5);\r",
+											"    pm.expect(response.flags).to.include.members([\r",
+											"        'contactlessEnabled',\r",
+											"        'cardDeliveryChangeNotAllowed',\r",
+											"        'generate3dSecureCodeAllowed',\r",
+											"        'displayPinAllowed',\r",
+											"        'automaticReplacementChangeNotAllowed']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/cards/{{id}}",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"cards",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DEPOSIT_CARD-Deposit card",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const getCards = {\r",
+											"    url: pm.variables.replaceIn('{{g4bUrl}}/my/cards'),\r",
+											"    method: 'GET',\r",
+											"    header: {\r",
+											"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+											"        'Authorization': pm.variables.replaceIn('Bearer {{marcelaNovotnaToken}}')\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(getCards, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        const jsonData = response.json();\r",
+											"        try {\r",
+											"            const cardsObj = jsonData.cards[0];\r",
+											"            pm.variables.set('cardsObj', cardsObj);\r",
+											"            pm.variables.set('id', cardsObj.id);\r",
+											"            //id = BF60AC8C29A4B2D0D91ED928DD2EE36563D4FB2F\r",
+											"        } catch (err) {\r",
+											"            console.log(err);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{marcelaNovotnaToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains cards object', () => {\r",
+											"    pm.expect(response).to.eql(pm.variables.get('cardsObj'));\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.id).to.eql('BF60AC8C29A4B2D0D91ED928DD2EE36563D4FB2F');\r",
+											"    pm.expect(response.owner).to.eql('MARCELA NOVOTNÁ');\r",
+											"    pm.expect(response.number).to.eql('414092XXXXXX0809');\r",
+											"    pm.expect(response.productI18N).to.eql('Visa Vkladová');\r",
+											"    pm.expect(response.expiryDate).to.eql('2022-06-30');\r",
+											"    pm.expect(response.type).to.eql('BANK_CARD');\r",
+											"    pm.expect(response.provider).to.eql('ERSTE_BANK');\r",
+											"    pm.expect(response.brand).to.eql('VISA');\r",
+											"    pm.expect(response.characteristic).to.eql('MAIN');\r",
+											" \r",
+											"    pm.expect(response.features).to.have.lengthOf(9);\r",
+											"    pm.expect(response.features).to.include.members([        \r",
+											"        'automaticReplacement',\r",
+											"        'contactless',\r",
+											"        'reissuePin',\r",
+											"        'limitChange',\r",
+											"        'displaySecuredInfo',\r",
+											"        'onlineLocking',\r",
+											"        'cancelCard',\r",
+											"        'temporaryLimitChange',\r",
+											"        'cardDelivery']);\r",
+											"    pm.expect(response.flags).to.have.lengthOf(5);\r",
+											"    pm.expect(response.flags).to.include.members([\r",
+											"        'automaticReplacementEnabled',\r",
+											"        'cardDeliveryChangeNotAllowed',\r",
+											"        'generate3dSecureCodeAllowed',\r",
+											"        'displayPinAllowed',\r",
+											"        'automaticReplacementChangeNotAllowed']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/cards/{{id}}",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"cards",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "401 subscription key missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const getCards = {\r",
+													"    url: pm.variables.replaceIn('{{g4bUrl}}/my/cards'),\r",
+													"    method: 'GET',\r",
+													"    header: {\r",
+													"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+													"        'Authorization': pm.variables.replaceIn('Bearer {{petrSpacekToken}}')\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(getCards, (error, response) => {\r",
+													"    if (error) {\r",
+													"        console.log(error);\r",
+													"    } else {\r",
+													"        //TODO return after implementaion\r",
+													"        // const jsonData = response.json();\r",
+													"        // const cardsObj = jsonData.cards[0];\r",
+													"        // pm.variables.set('cardsObj', cardsObj);\r",
+													"        // pm.variables.set('id', cardsObj.id);\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"pm.request.headers.remove('Ocp-Apim-Subscription-Key');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('keyMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards/{{id}}",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards",
+												"{{id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const getCards = {\r",
+													"    url: pm.variables.replaceIn('{{g4bUrl}}/my/cards'),\r",
+													"    method: 'GET',\r",
+													"    header: {\r",
+													"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+													"        'Authorization': pm.variables.replaceIn('Bearer {{petrSpacekToken}}')\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(getCards, (error, response) => {\r",
+													"    if (error) {\r",
+													"        console.log(error);\r",
+													"    } else {\r",
+													"        //TODO return after implementaion\r",
+													"        // const jsonData = response.json();\r",
+													"        // const cardObj = jsonData.cards[0];\r",
+													"        // pm.variables.set('cardObj', cardObj);\r",
+													"        // pm.variables.set('id', cardObj.id);\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"pm.request.headers.remove('Authorization');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards/{{id}}",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards",
+												"{{id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const getCards = {\r",
+													"    url: pm.variables.replaceIn('{{g4bUrl}}/my/cards'),\r",
+													"    method: 'GET',\r",
+													"    header: {\r",
+													"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+													"        'Authorization': pm.variables.replaceIn('Bearer {{petrSpacekToken}}')\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(getCards, (error, response) => {\r",
+													"    if (error) {\r",
+													"        console.log(error);\r",
+													"    } else {\r",
+													"        //TODO return after implementaion\r",
+													"        // const jsonData = response.json();\r",
+													"        // const cardObj = jsonData.cards[0];\r",
+													"        // pm.variables.set('cardObj', cardObj);\r",
+													"        // pm.variables.set('id', cardObj.id);\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{invalidToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/cards/{{id}}",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"cards",
+												"{{id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "invalid id path",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{petrSpacekToken}}' });"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 404', () => {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains error message: ID_NOT_FOUND', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(1);\r",
+											"    pm.expect(response.errors[0].error).to.eql('ID_NOT_FOUND');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/cards/E3483328CA739FE033BE654A21FD24DA9AB4BA12",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"cards",
+										"E3483328CA739FE033BE654A21FD24DA9AB4BA12"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{lenkaHajkovaToken}}' });",
+					"pm.request.headers.add({ key: 'Ocp-Apim-Subscription-Key', value: '{{OcpApimKey}}' });",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Response must be valid and have body', ()=> {",
+					"    pm.expect(pm.response.to.be.withBody);",
+					"});",
+					"",
+					"pm.test('Header contains Content-Type application/json', ()=> {",
+					"    pm.expect(pm.response).to.have.header('Content-type');",
+					"    pm.expect(pm.response.headers.get('content-Type')).to.contain('application/json');",
+					"});",
+					"",
+					"pm.test('Response time is less than 6000ms', ()=> {",
+					"    pm.expect(pm.response.responseTime).to.be.below(6000);",
+					"});",
+					""
+				]
+			}
+		}
+	]
+}

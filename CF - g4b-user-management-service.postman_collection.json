@@ -1,0 +1,1911 @@
+{
+	"info": {
+		"_postman_id": "d4c81c7a-710b-4c58-8be8-34a5a00a3fcd",
+		"name": "CF - g4b-user-management-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23141207"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "authorization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const clients = ['zdenekKonecny','alesPokorny', 'marcelaAdamcova', 'antoninValenta', 'davidKarol', 'alexanderOravec', 'lenkaHajkova', 'lucieJiroudkova', 'pavelKrepelka', 'hanaFodorova', 'michalPribyl', 'olgaHorakova', 'zuzanaMasatova', 'tomasHerden', 'kristynaRousova', 'michaelaVikova', 'petrSpacek', 'ivanaPetrovicova', 'miroslavKupcik', 'janSuk','jiriOuborny', 'romanProchazka', 'petrBresky', 'marcelaNovotna']\r",
+									"\r",
+									"const auth = (cluid) => {\r",
+									"    const auth = {\r",
+									"        url: pm.variables.replaceIn(`{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_for_business&cluid={{${cluid}}}&expires_in=28800&scenario_key=s_authn_sca_pwd_sms`),\r",
+									"        method: 'GET'\r",
+									"    };\r",
+									"\r",
+									"    pm.sendRequest(auth, (error, response) => {\r",
+									"        if (error) {\r",
+									"            console.log(error);\r",
+									"        } else {\r",
+									"            const jsonData = response.json();\r",
+									"            pm.collectionVariables.set(`${cluid}Token`, jsonData.access_token);\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"clients.forEach(cluid => auth(cluid))\r",
+									"\r",
+									"const authInvalidAudience = (cluid) => {\r",
+									"    const auth = {\r",
+									"        url: pm.variables.replaceIn(`{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_ticketing_client&cluid=${cluid}&expires_in=28800&scenario_key=s_authn_sca_pwd_sms`),\r",
+									"        method: 'GET'\r",
+									"    };\r",
+									"\r",
+									"    pm.sendRequest(auth, (error, response) => {\r",
+									"        if (error) {\r",
+									"            console.log(error);\r",
+									"        } else {\r",
+									"            const jsonData = response.json();\r",
+									"            pm.collectionVariables.set(`InvalidAudienceToken`, jsonData.access_token);\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"authInvalidAudience('1997-04-10-22.11.11.258187')\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mepTokenUrl}}?web-api-key={{mepTokenWebApiKey}}&client_id=george_for_business&cluid={{lenkaHajkova}}&expires_in=3600&scenario_key=s_authn_sca_pwd_sms",
+							"host": [
+								"{{mepTokenUrl}}"
+							],
+							"query": [
+								{
+									"key": "web-api-key",
+									"value": "{{mepTokenWebApiKey}}"
+								},
+								{
+									"key": "client_id",
+									"value": "george_for_business"
+								},
+								{
+									"key": "cluid",
+									"value": "{{lenkaHajkova}}"
+								},
+								{
+									"key": "expires_in",
+									"value": "3600"
+								},
+								{
+									"key": "scenario_key",
+									"value": "s_authn_sca_pwd_sms"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//Error tests",
+							"const keyMissingTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains status and errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: KEY_MISSING', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('KEY_MISSING');",
+							"    });",
+							"};",
+							"",
+							"const tokenMissingTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains status and errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Bearer error=\"token_missing\"', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"token_missing\"');",
+							"    });",
+							"};",
+							"",
+							"const tokenInvalidTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains errors array', () => {",
+							"        //pm.expect(response.status).to.eql(401);",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Bearer error=\"invalid_token', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Bearer error=\"invalid_token\"');",
+							"    });",
+							"};",
+							"",
+							"const tokenInvalidAudienceTests = () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.test('Status code is 401', () => {",
+							"        pm.response.to.have.status(401);",
+							"    });",
+							"",
+							"    pm.test('Response contains errors array', () => {",
+							"        pm.expect(response.errors).to.be.an('array');",
+							"        pm.expect(response.errors[0]).to.be.an('object');",
+							"    });",
+							"",
+							"    pm.test('Response contains error message: TOKEN_INVALID and Audience error=\"invalid_audience\"', () => {",
+							"        pm.expect(response.errors).to.have.lengthOf(1);",
+							"        pm.expect(response.errors[0].error).to.eql('TOKEN_INVALID');",
+							"        pm.expect(pm.response.headers.get('WWW-Authenticate')).to.eql('Audience error=\"invalid_audience\"');",
+							"    });",
+							"};",
+							"",
+							"pm.collectionVariables.set('keyMissingTests', keyMissingTests.toString());",
+							"pm.collectionVariables.set('tokenMissingTests', tokenMissingTests.toString());",
+							"pm.collectionVariables.set('tokenInvalidTests', tokenInvalidTests.toString());",
+							"pm.collectionVariables.set('tokenInvalidAudienceTests', tokenInvalidAudienceTests.toString());",
+							"pm.collectionVariables.set('invalidToken', '3/7nz8H096eb8Gf014OD85brFae1OpIBoGnMbDmwGhO8PYAzTtaoiN864QCnbRbxXm');",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "GET /my/contacts",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "client with email, with phone",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const addressObj = response.contacts.find(address => address.type === 'ADDRESS');\r",
+											"const emailObj = response.contacts.find(email => email.type === 'EMAIL');\r",
+											"const phoneObj = response.contacts.find(phone => phone.type === 'PHONE');\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.contacts).to.be.an('array');\r",
+											"    pm.expect(response.contacts).to.have.lengthOf(3);\r",
+											"    pm.expect(addressObj.type).to.eql('ADDRESS');\r",
+											"    pm.expect(addressObj.address).to.be.an('object');\r",
+											"    pm.expect(addressObj.address.zipCode).to.eql('58001');\r",
+											"    pm.expect(addressObj.address.city).to.eql('Havlíčkův Brod');\r",
+											"    pm.expect(addressObj.address.country).to.eql('CZ');\r",
+											"    pm.expect(addressObj.address.street).to.eql('Spišská');\r",
+											"    pm.expect(addressObj.address.streetNumber).to.eql('3742');\r",
+											"    pm.expect(addressObj.flags).to.be.an('array');\r",
+											"    pm.expect(addressObj.flags).to.have.lengthOf(2);\r",
+											"    pm.expect(addressObj.flags).to.include.members(['mainContact', 'permanentResidenceAddress']);\r",
+											"    pm.expect(emailObj.type).to.eql('EMAIL');\r",
+											"    pm.expect(emailObj.email).to.be.an('object');\r",
+											"    pm.expect(emailObj.email.address).to.eql('hajekrostislav.hb@seznam.cz');\r",
+											"    pm.expect(emailObj.flags).to.be.an('array');\r",
+											"    pm.expect(emailObj.flags).to.have.lengthOf(1);\r",
+											"    pm.expect(emailObj.flags).to.include.members(['mainContact']);\r",
+											"    pm.expect(phoneObj.type).to.eql('PHONE');\r",
+											"    pm.expect(phoneObj.phone).to.be.an('object');\r",
+											"    pm.expect(phoneObj.phone.number).to.eql('+420739058255');\r",
+											"    pm.expect(phoneObj.flags).to.be.an('array');\r",
+											"    pm.expect(phoneObj.flags).to.have.lengthOf(1);\r",
+											"    pm.expect(phoneObj.flags).to.include.members(['mainContact']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "client without email and phone",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{antoninValentaToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.contacts).to.be.an('array');\r",
+											"    pm.expect(response.contacts).to.have.lengthOf(1);\r",
+											"    pm.expect(response.contacts[0].type).to.eql('ADDRESS');\r",
+											"    pm.expect(response.contacts[0].address).to.be.an('object');\r",
+											"    pm.expect(response.contacts[0].address.zipCode).to.eql('36017');\r",
+											"    pm.expect(response.contacts[0].address.city).to.eql('Karlovy Vary');\r",
+											"    pm.expect(response.contacts[0].address.country).to.eql('CZ');\r",
+											"    pm.expect(response.contacts[0].address.street).to.eql('Školní');\r",
+											"    pm.expect(response.contacts[0].address.streetNumber).to.eql('826/1');\r",
+											"    pm.expect(response.contacts[0].flags).to.be.an('array');\r",
+											"    pm.expect(response.contacts[0].flags).to.have.lengthOf(2);\r",
+											"    pm.expect(response.contacts[0].flags).to.include.members(['mainContact', 'permanentResidenceAddress']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "client with email, without phone",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{davidKarolToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const addressObj = response.contacts.find(address => address.type === 'ADDRESS');\r",
+											"const emailObj = response.contacts.find(email => email.type === 'EMAIL');\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.contacts).to.be.an('array');\r",
+											"    pm.expect(response.contacts).to.have.lengthOf(2);\r",
+											"    pm.expect(addressObj.type).to.eql('ADDRESS');\r",
+											"    pm.expect(addressObj.address).to.be.an('object');\r",
+											"    pm.expect(addressObj.address.zipCode).to.eql('04012');\r",
+											"    pm.expect(addressObj.address.city).to.eql('Kosice');\r",
+											"    pm.expect(addressObj.address.country).to.eql('SK');\r",
+											"    pm.expect(addressObj.address.street).to.eql('kosice');\r",
+											"    pm.expect(addressObj.address).not.to.have.property('streetNumber');\r",
+											"    pm.expect(addressObj.flags).to.be.an('array');\r",
+											"    pm.expect(addressObj.flags).to.have.lengthOf(2);\r",
+											"    pm.expect(addressObj.flags).to.include.members(['mainContact', 'permanentResidenceAddress']);\r",
+											"    pm.expect(emailObj.type).to.eql('EMAIL');\r",
+											"    pm.expect(emailObj.email).to.be.an('object');\r",
+											"    pm.expect(emailObj.email.address).to.eql('david.karol1@gmail.com');\r",
+											"    pm.expect(emailObj.flags).to.be.an('array');\r",
+											"    pm.expect(emailObj.flags).to.have.lengthOf(1);\r",
+											"    pm.expect(emailObj.flags).to.include.members(['mainContact']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "client without email, with phone",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{alesPokornyToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const addressObj = response.contacts.find(address => address.type === 'ADDRESS');\r",
+											"const phoneObj = response.contacts.find(phone => phone.type === 'PHONE');\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.contacts).to.be.an('array');\r",
+											"    pm.expect(response.contacts).to.have.lengthOf(2);\r",
+											"    pm.expect(addressObj.type).to.eql('ADDRESS');\r",
+											"    pm.expect(addressObj.address).to.be.an('object');\r",
+											"    pm.expect(addressObj.address.zipCode).to.eql('28002');\r",
+											"    pm.expect(addressObj.address.city).to.eql('Kolín');\r",
+											"    pm.expect(addressObj.address.country).to.eql('CZ');\r",
+											"    pm.expect(addressObj.address.street).to.eql('Obecní dvůr');\r",
+											"    pm.expect(addressObj.address.streetNumber).to.eql('303');\r",
+											"    pm.expect(addressObj.flags).to.be.an('array');\r",
+											"    pm.expect(addressObj.flags).to.have.lengthOf(2);\r",
+											"    pm.expect(addressObj.flags).to.include.members(['mainContact', 'permanentResidenceAddress']);\r",
+											"    pm.expect(phoneObj.type).to.eql('PHONE');\r",
+											"    pm.expect(phoneObj.phone).to.be.an('object');\r",
+											"    pm.expect(phoneObj.phone.number).to.eql('+420777106737');\r",
+											"    pm.expect(phoneObj.flags).to.be.an('array');\r",
+											"    pm.expect(phoneObj.flags).to.have.lengthOf(1);\r",
+											"    pm.expect(phoneObj.flags).to.include.members(['mainContact']);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "validate schema",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"required\": [\r",
+											"        \"contacts\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"contacts\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"minItems\": 1,\r",
+											"            \"maxItems\": 3,\r",
+											"            \"uniqueItems\": true,\r",
+											"            \"additionalItems\": false,\r",
+											"            \"items\": {\r",
+											"                \"anyOf\": [\r",
+											"                    {\r",
+											"                        \"type\": \"object\",\r",
+											"                        \"required\": [\r",
+											"                            \"id\",\r",
+											"                            \"type\",\r",
+											"                            \"address\",\r",
+											"                            \"flags\"\r",
+											"                        ],\r",
+											"                        \"properties\": {\r",
+											"                            \"id\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"type\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"address\": {\r",
+											"                                \"type\": \"object\",\r",
+											"                                \"required\": [\r",
+											"                                    \"zipCode\",\r",
+											"                                    \"city\",\r",
+											"                                    \"country\",\r",
+											"                                    \"street\",\r",
+											"                                    \"streetNumber\"\r",
+											"                                ],\r",
+											"                                \"properties\": {\r",
+											"                                    \"zipCode\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    },\r",
+											"                                    \"city\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    },\r",
+											"                                    \"country\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    },\r",
+											"                                    \"street\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    },\r",
+											"                                    \"streetNumber\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    }\r",
+											"                                },\r",
+											"                                \"additionalProperties\": false\r",
+											"                            },\r",
+											"                            \"flags\": {\r",
+											"                                \"type\": \"array\",\r",
+											"                                \"minItems\": 0,\r",
+											"                                \"maxItems\": 2,\r",
+											"                                \"uniqueItems\": true,\r",
+											"                                \"additionalItems\": false,\r",
+											"                                \"items\": {\r",
+											"                                    \"anyOf\": [\r",
+											"                                        {\r",
+											"                                            \"type\": \"string\"\r",
+											"                                        }\r",
+											"                                    ]\r",
+											"                                }\r",
+											"                            }\r",
+											"                        },\r",
+											"                        \"additionalProperties\": false\r",
+											"                    },\r",
+											"                    {\r",
+											"                        \"type\": \"object\",\r",
+											"                        \"required\": [\r",
+											"                            \"id\",\r",
+											"                            \"type\",\r",
+											"                            \"email\",\r",
+											"                            \"flags\"\r",
+											"                        ],\r",
+											"                        \"properties\": {\r",
+											"                            \"id\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"type\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"email\": {\r",
+											"                                \"type\": \"object\",\r",
+											"                                \"required\": [\r",
+											"                                    \"address\"\r",
+											"                                ],\r",
+											"                                \"properties\": {\r",
+											"                                    \"address\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    }\r",
+											"                                },\r",
+											"                                \"additionalProperties\": false\r",
+											"                            },\r",
+											"                            \"flags\": {\r",
+											"                                \"type\": \"array\",\r",
+											"                                \"minItems\": 0,\r",
+											"                                \"maxItems\": 1,\r",
+											"                                \"uniqueItems\": true,\r",
+											"                                \"additionalItems\": false,\r",
+											"                                \"items\": {\r",
+											"                                    \"anyOf\": [\r",
+											"                                        {\r",
+											"                                            \"type\": \"string\"\r",
+											"                                        }\r",
+											"                                    ]\r",
+											"                                }\r",
+											"                            }\r",
+											"                        },\r",
+											"                        \"additionalProperties\": false\r",
+											"                    },\r",
+											"                    {\r",
+											"                        \"type\": \"object\",\r",
+											"                        \"required\": [\r",
+											"                            \"id\",\r",
+											"                            \"type\",\r",
+											"                            \"phone\",\r",
+											"                            \"flags\"\r",
+											"                        ],\r",
+											"                        \"properties\": {\r",
+											"                            \"id\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"type\": {\r",
+											"                                \"type\": \"string\"\r",
+											"                            },\r",
+											"                            \"phone\": {\r",
+											"                                \"type\": \"object\",\r",
+											"                                \"required\": [\r",
+											"                                    \"number\"\r",
+											"                                ],\r",
+											"                                \"properties\": {\r",
+											"                                    \"number\": {\r",
+											"                                        \"type\": \"string\"\r",
+											"                                    }\r",
+											"                                },\r",
+											"                                \"additionalProperties\": false\r",
+											"                            },\r",
+											"                            \"flags\": {\r",
+											"                                \"type\": \"array\",\r",
+											"                                \"minItems\": 0,\r",
+											"                                \"maxItems\": 1,\r",
+											"                                \"uniqueItems\": true,\r",
+											"                                \"additionalItems\": false,\r",
+											"                                \"items\": {\r",
+											"                                    \"anyOf\": [\r",
+											"                                        {\r",
+											"                                            \"type\": \"string\"\r",
+											"                                        }\r",
+											"                                    ]\r",
+											"                                }\r",
+											"                            }\r",
+											"                        },\r",
+											"                        \"additionalProperties\": false\r",
+											"                    }\r",
+											"                ]\r",
+											"            }\r",
+											"        }\r",
+											"    },\r",
+											"    \"additionalProperties\": false\r",
+											"}\r",
+											"\r",
+											"pm.test('Schema is valid', () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "401 subscription key missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Ocp-Apim-Subscription-Key');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('keyMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/contacts",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"contacts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/contacts",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"contacts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{invalidToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/contacts",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"contacts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid audience",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{InvalidAudienceToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidAudienceTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/contacts",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"contacts"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GET /my/contacts/{id}",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "address id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const getRequest = {\r",
+											"    url: pm.variables.replaceIn('{{g4bUrl}}/my/contacts'),\r",
+											"    method: 'GET',\r",
+											"    header: {\r",
+											"        'Authorization': pm.variables.replaceIn('Bearer {{lenkaHajkovaToken}}')\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(getRequest, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        //TODO return back when the service will be available/expose in Azure APIM\r",
+											"            const jsonData = response.json();\r",
+											"            const addressObj = jsonData.contacts.find(address => address.type === 'ADDRESS');\r",
+											"            pm.variables.set('addressObj', addressObj);\r",
+											"            pm.variables.set('id', addressObj.id);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains address object', () => {\r",
+											"    pm.expect(response).to.eql(pm.variables.get('addressObj'));\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts/{{id}}",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "email id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const getRequest = {\r",
+											"    url: pm.variables.replaceIn('{{g4bUrl}}/my/contacts'),\r",
+											"    method: 'GET',\r",
+											"    header: {\r",
+											"        'Authorization': pm.variables.replaceIn('Bearer {{lenkaHajkovaToken}}')\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(getRequest, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        //TODO return back when the service will be available/expose in Azure APIM\r",
+											"        // const jsonData = response.json();\r",
+											"        // const emailObj = jsonData.contacts.find(email => email.type === 'EMAIL');\r",
+											"        // pm.variables.set('emailObj', emailObj);\r",
+											"        // pm.variables.set('id', emailObj.id);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains email object', () => {\r",
+											"    pm.expect(response).to.eql(pm.variables.get('emailObj'));\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts/{{id}}",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "phone id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const getRequest = {\r",
+											"    url: pm.variables.replaceIn('{{g4bUrl}}/my/contacts'),\r",
+											"    method: 'GET',\r",
+											"    header: {\r",
+											"        'Authorization': pm.variables.replaceIn('Bearer {{lenkaHajkovaToken}}')\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(getRequest, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        //TODO return back when the service will be available/expose in Azure APIM\r",
+											"        // const jsonData = response.json();\r",
+											"        // const phoneObj = jsonData.contacts.find(phone => phone.type === 'PHONE');\r",
+											"        // pm.variables.set('phoneObj', phoneObj);\r",
+											"        // pm.variables.set('id', phoneObj.id);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains phone object', () => {\r",
+											"    pm.expect(response).to.eql(pm.variables.get('phoneObj'));\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts/{{id}}",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "401 subscription key missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const postRequest = {\r",
+													"    url: pm.variables.replaceIn('{{g4bUrl}}/my/contacts'),\r",
+													"    method: 'GET',\r",
+													"    header: {\r",
+													"        'Authorization': pm.variables.replaceIn('Bearer {{lenkaHajkovaToken}}')\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(postRequest, (error, response) => {\r",
+													"    if (error) {\r",
+													"        console.log(error);\r",
+													"    } else {\r",
+													"        //TODO return back when the service will be available/expose in Azure APIM\r",
+													"        // const jsonData = response.json();\r",
+													"        // pm.variables.set('id', jsonData.contacts[0].id);\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"pm.request.headers.remove('Ocp-Apim-Subscription-Key');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('keyMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/contacts/{{id}}",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"contacts",
+												"{{id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const postRequest = {\r",
+													"    url: pm.variables.replaceIn('{{g4bUrl}}/my/contacts'),\r",
+													"    method: 'GET',\r",
+													"    header: {\r",
+													"        'Authorization': pm.variables.replaceIn('Bearer {{lenkaHajkovaToken}}')\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(postRequest, (error, response) => {\r",
+													"    if (error) {\r",
+													"        console.log(error);\r",
+													"    } else {\r",
+													"        //TODO return back when the service will be available/expose in Azure APIM\r",
+													"        // const jsonData = response.json();\r",
+													"        // pm.variables.set('id', jsonData.contacts[0].id);\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"pm.request.headers.remove('Authorization');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/contacts/{{id}}",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"contacts",
+												"{{id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const postRequest = {\r",
+													"    url: pm.variables.replaceIn('{{g4bUrl}}/my/contacts'),\r",
+													"    method: 'GET',\r",
+													"    header: {\r",
+													"        'Authorization': pm.variables.replaceIn('Bearer {{lenkaHajkovaToken}}')\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(postRequest, (error, response) => {\r",
+													"    if (error) {\r",
+													"        console.log(error);\r",
+													"    } else {\r",
+													"        //TODO return back when the service will be available/expose in Azure APIM\r",
+													"        // const jsonData = response.json();\r",
+													"        // pm.variables.set('id', jsonData.contacts[0].id);\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{invalidToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/contacts/{{id}}",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"contacts",
+												"{{id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid audience",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const postRequest = {\r",
+													"    url: pm.variables.replaceIn('{{g4bUrl}}/my/contacts'),\r",
+													"    method: 'GET',\r",
+													"    header: {\r",
+													"        'Ocp-Apim-Subscription-Key': pm.variables.replaceIn('{{OcpApimKey}}'),\r",
+													"        'Authorization': pm.variables.replaceIn('Bearer {{lenkaHajkovaToken}}')\r",
+													"    }\r",
+													"};\r",
+													"\r",
+													"pm.sendRequest(postRequest, (error, response) => {\r",
+													"    if (error) {\r",
+													"        console.log(error);\r",
+													"    } else {\r",
+													"        //TODO return back when the service will be available/expose in Azure APIM\r",
+													"        // const jsonData = response.json();\r",
+													"        // pm.variables.set('id', jsonData.contacts[0].id);\r",
+													"    }\r",
+													"});\r",
+													"\r",
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{InvalidAudienceToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidAudienceTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/contacts/{{id}}",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"contacts",
+												"{{id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "invalid id path",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 400', () => {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains uuid and errors array', () => {\r",
+											"    pm.expect(response.uuid).to.be.a('string');\r",
+											"    pm.expect(response.errors).to.be.an('array');\r",
+											"    pm.expect(response.errors[0]).to.be.an('object');\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains error message: ID_NOT_FOUND', () => {\r",
+											"    pm.expect(response.errors).to.have.lengthOf(1);\r",
+											"    pm.expect(response.errors[0].error).to.eql('ID_NOT_FOUND');\r",
+											"    pm.expect(response.errors[0].scope).to.eql('id');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/contacts/4ec0b7f7-1f9a-43e9-9838-8d90732ee63s",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"contacts",
+										"4ec0b7f7-1f9a-43e9-9838-8d90732ee63s"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "GET /my/profile",
+			"item": [
+				{
+					"name": "positive",
+					"item": [
+						{
+							"name": "client with marketing consent",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const userCluid = pm.response.headers.get('x-user-cluid');\r",
+											"const companyInfoMock = {\r",
+											"        \"name\": \"Company Name MOCKED\",\r",
+											"        \"licenceHolder\": 123456789\r",
+											"    };\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Response contains correct values', () => {\r",
+											"    pm.expect(response.customerId).to.eql(userCluid);\r",
+											"    pm.expect(response.firstname).to.eql('Lenka');\r",
+											"    pm.expect(response.lastname).to.eql('Hájková');\r",
+											"    pm.expect(response.gender).to.eql('FEMALE');\r",
+											"    pm.expect(response.salutation).to.eql('Lenko Hájková');\r",
+											"    pm.expect(response.branch.id).to.eql('HR0_50000923');\r",
+											"    pm.expect(response.flags).to.be.empty;\r",
+											"    pm.expect(response.companyInfo).to.eql(companyInfoMock);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/profile",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "client without marketing consent",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{alexanderOravecToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test('Status code is 200', () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Client does not have marketing consent', () => {\r",
+											"    pm.expect(response.flags).to.include('dataConsentActionRequired');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/profile",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "validate schema",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.request.headers.remove('Authorization');\r",
+											"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{alexanderOravecToken}}' });\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const schema = {\r",
+											"    \"type\": \"object\",\r",
+											"    \"required\": [\r",
+											"        \"customerId\",\r",
+											"        \"firstname\",\r",
+											"        \"lastname\",\r",
+											"        \"gender\",\r",
+											"        \"salutation\",\r",
+											"        \"branch\",\r",
+											"        \"flags\",\r",
+											"        \"companyInfo\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"customerId\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"firstname\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"lastname\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"gender\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"salutation\": {\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"branch\": {\r",
+											"            \"type\": \"object\",\r",
+											"            \"required\": [\r",
+											"                \"id\"\r",
+											"            ],\r",
+											"            \"properties\": {\r",
+											"                \"id\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                }\r",
+											"            },\r",
+											"            \"additionalProperties\": false\r",
+											"        },\r",
+											"        \"flags\": {\r",
+											"            \"type\": \"array\",\r",
+											"            \"minItems\": 0,\r",
+											"            \"maxItems\": 1,\r",
+											"            \"uniqueItems\": true,\r",
+											"            \"additionalItems\": false,\r",
+											"            \"items\": {\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"companyInfo\": {\r",
+											"            \"type\": \"object\",\r",
+											"            \"required\": [\r",
+											"                \"name\",\r",
+											"                \"licenceHolder\"\r",
+											"            ],\r",
+											"            \"properties\": {\r",
+											"                \"name\": {\r",
+											"                    \"type\": \"string\"\r",
+											"                },\r",
+											"                \"licenceHolder\": {\r",
+											"                    \"type\": \"integer\"\r",
+											"                }\r",
+											"            },\r",
+											"            \"additionalProperties\": false\r",
+											"        }\r",
+											"    },\r",
+											"    \"additionalProperties\": false\r",
+											"}\r",
+											"\r",
+											"pm.test('Schema is valid', () => {\r",
+											"    pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{g4bUrl}}/my/profile",
+									"host": [
+										"{{g4bUrl}}"
+									],
+									"path": [
+										"my",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "negative",
+					"item": [
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "401 subscription key missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Ocp-Apim-Subscription-Key');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('keyMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/profile",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"profile"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token missing",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenMissingTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/profile",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"profile"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "401 token invalid",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.request.headers.remove('Authorization');\r",
+													"pm.request.headers.add({ key: 'Authorization', value: '{{invalidToken}}' });\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"eval(pm.collectionVariables.get('tokenInvalidTests'))();\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{g4bUrl}}/my/profile",
+											"host": [
+												"{{g4bUrl}}"
+											],
+											"path": [
+												"my",
+												"profile"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({ key: 'Authorization', value: 'Bearer {{lenkaHajkovaToken}}' });",
+					"pm.request.headers.add({ key: 'Ocp-Apim-Subscription-Key', value: '{{OcpApimKey}}' });",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Response must be valid and have body', ()=> {",
+					"    pm.expect(pm.response.to.be.withBody);",
+					"});",
+					"",
+					"pm.test('Header contains Content-Type application/json', ()=> {",
+					"    pm.expect(pm.response).to.have.header('Content-type');",
+					"    pm.expect(pm.response.headers.get('content-Type')).to.contain('application/json');",
+					"});",
+					"",
+					"pm.test('Response time is less than 6000ms', ()=> {",
+					"    pm.expect(pm.response.responseTime).to.be.below(6000);",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "keyMissingTests",
+			"value": ""
+		},
+		{
+			"key": "tokenMissingTests",
+			"value": ""
+		},
+		{
+			"key": "tokenInvalidTests",
+			"value": ""
+		},
+		{
+			"key": "tokenInvalidAudienceTests",
+			"value": ""
+		},
+		{
+			"key": "invalidToken",
+			"value": ""
+		},
+		{
+			"key": "zuzanaMasatovaToken",
+			"value": ""
+		},
+		{
+			"key": "michalPribylToken",
+			"value": ""
+		},
+		{
+			"key": "tomasHerdenToken",
+			"value": ""
+		},
+		{
+			"key": "petrSpacekToken",
+			"value": ""
+		},
+		{
+			"key": "olgaHorakovaToken",
+			"value": ""
+		},
+		{
+			"key": "pavelKrepelkaToken",
+			"value": ""
+		},
+		{
+			"key": "lenkaHajkovaToken",
+			"value": ""
+		},
+		{
+			"key": "alesPokornyToken",
+			"value": ""
+		},
+		{
+			"key": "zdenekKonecnyToken",
+			"value": ""
+		},
+		{
+			"key": "antoninValentaToken",
+			"value": ""
+		},
+		{
+			"key": "marcelaAdamcovaToken",
+			"value": ""
+		},
+		{
+			"key": "kristynaRousovaToken",
+			"value": ""
+		},
+		{
+			"key": "jiriOubornyToken",
+			"value": ""
+		},
+		{
+			"key": "hanaFodorovaToken",
+			"value": ""
+		},
+		{
+			"key": "davidKarolToken",
+			"value": ""
+		},
+		{
+			"key": "ivanaPetrovicovaToken",
+			"value": ""
+		},
+		{
+			"key": "petrBreskyToken",
+			"value": ""
+		},
+		{
+			"key": "michaelaVikovaToken",
+			"value": ""
+		},
+		{
+			"key": "romanProchazkaToken",
+			"value": ""
+		},
+		{
+			"key": "lucieJiroudkovaToken",
+			"value": ""
+		},
+		{
+			"key": "alexanderOravecToken",
+			"value": ""
+		},
+		{
+			"key": "miroslavKupcikToken",
+			"value": ""
+		},
+		{
+			"key": "marcelaNovotnaToken",
+			"value": ""
+		},
+		{
+			"key": "InvalidAudienceToken",
+			"value": ""
+		},
+		{
+			"key": "janSukToken",
+			"value": ""
+		}
+	]
+}
